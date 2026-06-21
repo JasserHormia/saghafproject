@@ -1,334 +1,207 @@
 "use client";
 
-import { useState, type CSSProperties } from "react";
+import { useRef } from "react";
 import Image from "next/image";
+import Link from "next/link";
 
-const GOLD = "#B8932A";
-const TEXT_DARK = "#2C1F0A";
-const TEXT_MID = "#6B5A3E";
-const WHITE = "#FFFFFF";
-const SERIF = '"Cormorant Garamond", Georgia, serif';
+const WHITE = "#F5F5F5";
+const GRAY_LIGHT = "#9A9A9A";
+const GRAY_DARK = "#2A2A2A";
+const BURGUNDY = "#6B1626";
+const BURGUNDY_LIGHT = "#8B2236";
 
 type Perfume = {
   name: string;
-  arabic: string;
   notes: string;
-  description: string;
-  accent: string;
   price: number;
   image: string;
 };
 
 const PERFUMES: Perfume[] = [
-  {
-    name: "Oud Al Layl",
-    arabic: "عود الليل",
-    notes: "Dark Oud · Amber · Musk",
-    description:
-      "A nocturnal embrace of smoky oud wrapped in warm amber, deepened by a velvet trail of musk.",
-    accent: "#8B2040",
-    price: 495,
-    image: "/perfume1.jpeg",
-  },
-  {
-    name: "Wardah Gold",
-    arabic: "وردة الذهب",
-    notes: "Rose · Saffron · Sandalwood",
-    description:
-      "Damascus rose gilded with crimson saffron, settling into a creamy heart of aged sandalwood.",
-    accent: "#C9A84C",
-    price: 630,
-    image: "/perfume2.jpeg",
-  },
-  {
-    name: "Breeze of Mecca",
-    arabic: "نسيم مكة",
-    notes: "Frankincense · Cedar · Neroli",
-    description:
-      "Sacred frankincense lifted by bright neroli over a clean, resinous spine of mountain cedar.",
-    accent: "#4A7FA5",
-    price: 400,
-    image: "/perfume3.jpeg",
-  },
-  {
-    name: "Sultana Noir",
-    arabic: "سلطانة نوار",
-    notes: "Black Iris · Velvet Oud · Vanilla",
-    description:
-      "Regal black iris meets the darkest velvet oud, sweetened by a whisper of bourbon vanilla.",
-    accent: "#6B4C9A",
-    price: 765,
-    image: "/perfume4.jpeg",
-  },
+  { name: "Oud Al Layl", notes: "Dark Oud · Amber · Musk", price: 149, image: "/assets/perfume2.jpeg" },
+  { name: "Wardah Gold", notes: "Rose · Saffron · Sandalwood", price: 169, image: "/assets/perfumeimg2.jpeg" },
+  { name: "Breeze of Mecca", notes: "Frankincense · Cedar · Neroli", price: 89, image: "/assets/perfumeimg5.jpeg" },
+  { name: "Sultana Noir", notes: "Black Iris · Velvet Oud · Vanilla", price: 159, image: "/assets/perfumeimg7.jpeg" },
+  { name: "Desert Bloom", notes: "Jasmine · White Musk · Amber", price: 99, image: "/assets/perfumeimg9.jpeg" },
+  { name: "Zafaran", notes: "Pure Saffron · Rose · Musk", price: 149, image: "/assets/perfumeimg11.jpeg" },
+  { name: "Layl Al Shams", notes: "Bergamot · Amber · Cedarwood", price: 129, image: "/assets/perfume6.jpeg" },
+  { name: "Reef Al Noor", notes: "White Musk · Iris · Sandalwood", price: 109, image: "/assets/perfume7.jpeg" },
+  { name: "Yasmeen Al Fajr", notes: "Jasmine · Neroli · White Musk", price: 119, image: "/assets/perfume8.jpeg" },
 ];
 
-/* ------------------------------------------------------------------ */
-/*  Card                                                               */
-/* ------------------------------------------------------------------ */
-function PerfumeCard({ perfume, index }: { perfume: Perfume; index: number }) {
-  const [hover, setHover] = useState(false);
-  const [btnHover, setBtnHover] = useState(false);
+export default function CollectionSection() {
+  const rowRef = useRef<HTMLDivElement>(null);
 
-  const cardStyle: CSSProperties = {
-    position: "relative",
-    overflow: "hidden",
-    height: "100%",
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    textAlign: "center",
-    padding: "2.5rem 1.5rem 2rem",
-    borderRadius: "3px",
-    background: "rgba(255,255,255,0.9)",
-    border: `1px solid ${hover ? "rgba(184,147,42,0.4)" : "rgba(184,147,42,0.15)"}`,
-    boxShadow: hover
-      ? "0 20px 60px rgba(184,147,42,0.15)"
-      : "0 4px 30px rgba(184,147,42,0.08)",
-    transform: hover ? "translateY(-10px)" : "translateY(0)",
-    transition:
-      "transform 0.5s cubic-bezier(0.16,1,0.3,1), border-color 0.5s ease, box-shadow 0.5s ease",
-  };
-
-  const btnStyle: CSSProperties = {
-    marginTop: "1.5rem",
-    fontSize: "0.68rem",
-    fontWeight: 600,
-    letterSpacing: "0.22em",
-    textTransform: "uppercase",
-    padding: "0.7rem 1.8rem",
-    color: btnHover ? WHITE : TEXT_DARK,
-    backgroundColor: btnHover ? GOLD : "transparent",
-    border: `1px solid ${GOLD}`,
-    borderRadius: "2px",
-    cursor: "pointer",
-    textDecoration: "none",
-    transition: "background-color 0.35s ease, color 0.35s ease, box-shadow 0.35s ease",
-    boxShadow: btnHover ? "0 0 22px rgba(184,147,42,0.4)" : "none",
+  const scrollBy = (dir: number) => {
+    rowRef.current?.scrollBy({ left: dir * 344, behavior: "smooth" });
   };
 
   return (
-    <div
-      className="reveal"
-      style={{ height: "100%", transitionDelay: `${index * 0.1}s` }}
-    >
-    <div
-      className="collection-card"
-      style={cardStyle}
-      onMouseEnter={() => setHover(true)}
-      onMouseLeave={() => setHover(false)}
-    >
-      {/* glow that intensifies on hover */}
-      <span
-        aria-hidden="true"
-        style={{
-          position: "absolute",
-          inset: 0,
-          background: `radial-gradient(circle at 50% 18%, ${perfume.accent}30, transparent 65%)`,
-          opacity: hover ? 1 : 0,
-          transition: "opacity 0.5s ease",
-          pointerEvents: "none",
-        }}
-      />
-
-      {/* perfume image */}
+    <section id="collection" style={{ position: "relative", backgroundColor: "#0A0A0A", padding: "6rem 0" }}>
+      {/* Header */}
       <div
-        className="collection-img"
-        style={{
-          position: "relative",
-          width: "100%",
-          aspectRatio: "1 / 1",
-          overflow: "hidden",
-          borderRadius: "4px",
-        }}
+        className="reveal"
+        style={{ maxWidth: "1500px", margin: "0 auto", padding: "0 clamp(1.5rem, 6vw, 6rem) 3rem" }}
       >
-        <div
+        <span
           style={{
-            position: "absolute",
-            inset: 0,
-            transform: hover ? "scale(1.1)" : "scale(1)",
-            transition: "transform 0.6s ease",
+            fontSize: "0.72rem",
+            fontWeight: 500,
+            letterSpacing: "0.3em",
+            textTransform: "uppercase",
+            color: GRAY_LIGHT,
           }}
         >
-          <Image
-            src={perfume.image}
-            alt={perfume.name}
-            fill
-            sizes="(max-width: 560px) 100vw, (max-width: 1024px) 50vw, 25vw"
-            style={{ objectFit: "cover" }}
-          />
-        </div>
+          The Collection
+        </span>
+        <h2
+          className="font-display"
+          style={{
+            fontWeight: 800,
+            fontSize: "clamp(2.5rem, 5vw, 3.5rem)",
+            lineHeight: 1,
+            letterSpacing: "-0.02em",
+            color: WHITE,
+            margin: "0.75rem 0 0",
+          }}
+        >
+          Signature Fragrances
+        </h2>
       </div>
 
-      {/* Arabic name */}
-      <span
-        style={{
-          fontFamily: SERIF,
-          fontStyle: "italic",
-          fontSize: "1.7rem",
-          color: GOLD,
-          lineHeight: 1.2,
-          marginTop: "0.5rem",
-        }}
-      >
-        {perfume.arabic}
-      </span>
+      {/* Carousel */}
+      <div style={{ position: "relative", maxWidth: "1500px", margin: "0 auto" }}>
+        <button type="button" aria-label="Previous" className="coll-arrow coll-arrow-left" onClick={() => scrollBy(-1)}>
+          ‹
+        </button>
+        <button type="button" aria-label="Next" className="coll-arrow coll-arrow-right" onClick={() => scrollBy(1)}>
+          ›
+        </button>
 
-      {/* English name */}
-      <h3
-        className="collection-name"
-        style={{
-          fontFamily: SERIF,
-          fontSize: "1.5rem",
-          fontWeight: 600,
-          color: TEXT_DARK,
-          margin: "0.25rem 0 0",
-        }}
-      >
-        {perfume.name}
-      </h3>
-
-      {/* notes */}
-      <span
-        style={{
-          fontSize: "0.62rem",
-          letterSpacing: "0.18em",
-          textTransform: "uppercase",
-          color: perfume.accent,
-          marginTop: "0.6rem",
-        }}
-      >
-        {perfume.notes}
-      </span>
-
-      {/* description */}
-      <p
-        style={{
-          fontSize: "0.85rem",
-          lineHeight: 1.6,
-          color: TEXT_MID,
-          margin: "0.9rem 0 0",
-          maxWidth: "16rem",
-        }}
-      >
-        {perfume.description}
-      </p>
-
-      {/* price */}
-      <span
-        className="collection-price"
-        style={{
-          fontFamily: SERIF,
-          fontSize: "1.3rem",
-          fontWeight: 600,
-          color: GOLD,
-          marginTop: "1.1rem",
-        }}
-      >
-        AED {perfume.price}
-      </span>
-
-      {/* discover button */}
-      <a
-        href={`#${perfume.name.toLowerCase().replace(/\s+/g, "-")}`}
-        style={btnStyle}
-        onMouseEnter={() => setBtnHover(true)}
-        onMouseLeave={() => setBtnHover(false)}
-      >
-        Discover
-      </a>
-    </div>
-    </div>
-  );
-}
-
-/* ------------------------------------------------------------------ */
-/*  Section                                                            */
-/* ------------------------------------------------------------------ */
-export default function CollectionSection() {
-  return (
-    <section
-      id="collection"
-      style={{
-        position: "relative",
-        padding: "7rem 2rem",
-        backgroundColor: "#F5EDE0",
-      }}
-    >
-      <div style={{ maxWidth: "1280px", margin: "0 auto" }}>
-        {/* heading */}
-        <div className="reveal" style={{ textAlign: "center", marginBottom: "4rem" }}>
-          <span
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: "0.85rem",
-              fontSize: "0.7rem",
-              fontWeight: 600,
-              letterSpacing: "0.3em",
-              textTransform: "uppercase",
-              color: GOLD,
-            }}
-          >
-            <span aria-hidden="true" style={{ opacity: 0.6 }}>✦</span>
-            Our Collection
-            <span aria-hidden="true" style={{ opacity: 0.6 }}>✦</span>
-          </span>
-          <h2
-            style={{
-              fontFamily: SERIF,
-              fontSize: "clamp(2.4rem, 4.5vw, 3.6rem)",
-              fontWeight: 400,
-              color: TEXT_DARK,
-              margin: "1rem 0 0",
-            }}
-          >
-            Featured Perfumes
-          </h2>
-          <div
-            aria-hidden="true"
-            style={{
-              fontSize: "0.7rem",
-              color: GOLD,
-              marginTop: "0.85rem",
-              letterSpacing: "0.5em",
-            }}
-          >
-            ◆
-          </div>
-        </div>
-
-        {/* grid */}
         <div
-          className="collection-grid"
+          ref={rowRef}
+          className="coll-row no-scrollbar"
           style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(4, 1fr)",
-            gap: "1.75rem",
+            display: "flex",
+            gap: "1.5rem",
+            overflowX: "auto",
+            WebkitOverflowScrolling: "touch",
+            scrollSnapType: "x mandatory",
+            padding: "0 clamp(1.5rem, 6vw, 6rem)",
           }}
         >
           {PERFUMES.map((p, i) => (
-            <PerfumeCard key={p.name} perfume={p} index={i} />
+            <div
+              key={p.name}
+              className="coll-card reveal"
+              style={{
+                flex: "0 0 auto",
+                width: "320px",
+                scrollSnapAlign: "start",
+                transitionDelay: `${i * 0.06}s`,
+              }}
+            >
+              {/* image */}
+              <div style={{ position: "relative", width: "100%", aspectRatio: "3 / 4", overflow: "hidden" }}>
+                <div className="coll-img" style={{ position: "absolute", inset: 0, transition: "transform 0.6s ease" }}>
+                  <Image
+                    src={p.image}
+                    alt={p.name}
+                    fill
+                    sizes="320px"
+                    style={{ objectFit: "cover" }}
+                  />
+                </div>
+              </div>
+
+              {/* hairline divider */}
+              <div style={{ height: "1px", backgroundColor: GRAY_DARK, margin: "1.25rem 0" }} />
+
+              {/* text */}
+              <h3 style={{ fontSize: "1.125rem", fontWeight: 700, color: WHITE, margin: 0 }}>{p.name}</h3>
+              <p
+                style={{
+                  fontSize: "0.68rem",
+                  letterSpacing: "0.14em",
+                  textTransform: "uppercase",
+                  color: GRAY_LIGHT,
+                  margin: "0.5rem 0 0",
+                }}
+              >
+                {p.notes}
+              </p>
+              <p style={{ fontSize: "0.95rem", fontWeight: 600, color: BURGUNDY_LIGHT, margin: "0.75rem 0 0" }}>
+                AED {p.price}
+              </p>
+            </div>
           ))}
         </div>
       </div>
 
+      {/* View all */}
+      <div style={{ textAlign: "center", marginTop: "3.5rem" }}>
+        <Link href="/products" className="coll-viewall">
+          View All
+        </Link>
+      </div>
+
       <style>{`
-        @keyframes collection-twinkle {
-          0%, 100% { opacity: 0; transform: scale(0.6); }
-          50% { opacity: 1; transform: scale(1.2); }
+        .no-scrollbar { scrollbar-width: none; -ms-overflow-style: none; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+
+        .coll-img { will-change: transform; }
+        .coll-card:hover .coll-img { transform: scale(1.05); }
+
+        .coll-arrow {
+          position: absolute;
+          top: 38%;
+          z-index: 4;
+          width: 48px;
+          height: 48px;
+          border-radius: 50%;
+          border: 1px solid rgba(245,245,245,0.5);
+          background: rgba(10,10,10,0.4);
+          color: ${WHITE};
+          font-size: 1.5rem;
+          line-height: 1;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
         }
-        @media (max-width: 1024px) {
-          .collection-grid { grid-template-columns: repeat(2, 1fr) !important; }
+        .coll-arrow:hover { background: ${BURGUNDY}; border-color: ${BURGUNDY}; color: ${WHITE}; }
+        .coll-arrow-left { left: clamp(0.5rem, 3vw, 2.5rem); }
+        .coll-arrow-right { right: clamp(0.5rem, 3vw, 2.5rem); }
+
+        .coll-viewall {
+          position: relative;
+          display: inline-block;
+          font-size: 0.72rem;
+          font-weight: 600;
+          letter-spacing: 0.25em;
+          text-transform: uppercase;
+          color: ${WHITE};
+          text-decoration: none;
+          padding-bottom: 6px;
         }
-        @media (max-width: 767px) {
-          .collection-grid { grid-template-columns: 1fr !important; }
-          .collection-card { padding: 1rem !important; }
-          .collection-img { aspect-ratio: 3 / 4 !important; }
-          .collection-name { font-size: 1.125rem !important; }
-          .collection-price { font-size: 1rem !important; }
+        .coll-viewall::after {
+          content: "";
+          position: absolute;
+          left: 0;
+          bottom: 0;
+          width: 0;
+          height: 1px;
+          background: ${BURGUNDY_LIGHT};
+          transition: width 0.4s cubic-bezier(0.16,1,0.3,1);
         }
-        @media (prefers-reduced-motion: reduce) {
-          .collection-grid span[aria-hidden="true"] { animation: none !important; }
+        .coll-viewall:hover { color: ${BURGUNDY_LIGHT}; }
+        .coll-viewall:hover::after { width: 100%; }
+
+        @media (max-width: 768px) {
+          .coll-card { width: 78vw !important; max-width: 300px; }
+          .coll-arrow { display: none; }
+          .coll-row { padding: 0 1.25rem !important; }
         }
       `}</style>
     </section>

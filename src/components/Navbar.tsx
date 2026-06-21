@@ -1,157 +1,184 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 
-const NAV_LINKS = [
-  { label: "Home", href: "/" },
-  { label: "About", href: "/about" },
-  { label: "Products", href: "/products" },
-  { label: "Contact", href: "/contact" },
-];
-
-const linkClass = (active: boolean) =>
-  [
-    "text-xs font-light tracking-[0.2em] uppercase transition-colors duration-300",
-    active ? "text-gold" : "text-text-dark hover:text-gold",
-  ].join(" ");
-
-const mobileLinkClass = (active: boolean) =>
-  [
-    "block w-full text-center py-4 text-base font-medium tracking-[0.25em] uppercase transition-colors duration-300",
-    active ? "text-gold" : "text-text-dark hover:text-gold",
-  ].join(" ");
-
 export default function Navbar() {
-  const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const pathname = usePathname();
 
-  // Scroll detection — switch to glass state past 50px.
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 50);
+    const onScroll = () => setScrolled(window.scrollY > 30);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Lock body scroll while the mobile menu is open.
-  useEffect(() => {
-    document.body.style.overflow = menuOpen ? "hidden" : "";
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [menuOpen]);
+  const links = [
+    { label: "HOME", href: "/" },
+    { label: "ABOUT", href: "/about" },
+    { label: "PRODUCTS", href: "/products" },
+    { label: "CONTACT", href: "/contact" },
+  ];
+
+  const linkStyle = (href: string) => ({
+    fontSize: "11px",
+    letterSpacing: "0.2em",
+    fontWeight: 500,
+    color: pathname === href ? "#FFFFFF" : "#B0B0B0",
+    textDecoration: "none",
+    whiteSpace: "nowrap" as const,
+  });
 
   return (
     <nav
+      className="fixed top-0 left-0 right-0 z-[100] h-[72px] lg:h-[90px] flex lg:grid lg:grid-cols-[1fr_auto_1fr] items-center justify-between lg:justify-normal px-5 lg:px-10"
       style={{
-        backgroundColor: scrolled ? "rgba(250,246,240,0.96)" : "transparent",
-        backdropFilter: scrolled ? "blur(14px) saturate(140%)" : "none",
-        WebkitBackdropFilter: scrolled ? "blur(14px) saturate(140%)" : "none",
-        borderBottom: `1px solid ${scrolled ? "rgba(184,147,42,0.15)" : "transparent"}`,
+        background: scrolled ? "rgba(10,10,10,0.95)" : "rgba(10,10,10,0.55)",
+        backdropFilter: "blur(14px)",
+        WebkitBackdropFilter: "blur(14px)",
+        borderBottom: "1px solid rgba(255,255,255,0.08)",
+        transition: "background 0.4s ease",
       }}
-      className="site-nav fixed top-0 left-0 right-0 z-50 flex items-center justify-between py-3 px-6 lg:px-16 transition-all duration-500"
     >
-      {/* Left: logo */}
-      <Link href="/" aria-label="Shaghaf home" className="flex items-center">
+      {/* Desktop-only left links */}
+      <div className="hidden items-center gap-9 lg:flex">
+        {links.slice(0, 2).map((l) => (
+          <Link key={l.href} href={l.href} style={linkStyle(l.href)}>
+            {l.label}
+          </Link>
+        ))}
+      </div>
+
+      {/* Logo — left on mobile, centered on desktop; smaller on mobile */}
+      <Link href="/" aria-label="Shaghaf home" className="flex items-center lg:justify-self-center">
         <Image
           src="/shaghaf_logo_eng.png"
           alt="Shaghaf"
-          width={140}
-          height={50}
+          width={190}
+          height={64}
           priority
-          className="brightness-[0.2] h-auto w-30 md:w-35"
-          style={{ objectFit: "contain", objectPosition: "left center" }}
+          className="h-[40px] w-[120px] lg:h-[64px] lg:w-[190px]"
+          style={{ objectFit: "contain", filter: "brightness(0) invert(1)" }}
         />
       </Link>
 
-      {/* Center: desktop links */}
-      <div className="hidden items-center gap-10 md:flex">
-        {NAV_LINKS.map((link) => (
-          <Link
-            key={link.href}
-            href={link.href}
-            className={linkClass(pathname === link.href)}
-          >
-            {link.label}
+      {/* Desktop-only right links + Shop Now */}
+      <div className="hidden items-center gap-9 lg:flex lg:justify-self-end">
+        {links.slice(2).map((l) => (
+          <Link key={l.href} href={l.href} style={linkStyle(l.href)}>
+            {l.label}
           </Link>
         ))}
-      </div>
-
-      {/* Right: shop button (desktop) + hamburger (mobile) */}
-      <div className="flex items-center gap-4">
         <Link
           href="/products"
-          className="hidden rounded-sm border border-gold px-5 py-2 text-xs font-light uppercase tracking-[0.2em] text-gold transition-colors duration-300 hover:bg-gold hover:text-white hover:shadow-[0_0_24px_rgba(184,147,42,0.4)] md:inline-block"
+          style={{
+            fontSize: "10px",
+            letterSpacing: "0.2em",
+            fontWeight: 600,
+            color: "#FFFFFF",
+            border: "1px solid #FFFFFF",
+            padding: "11px 24px",
+            textDecoration: "none",
+            whiteSpace: "nowrap",
+            flexShrink: 0,
+          }}
         >
-          Shop Now
+          SHOP NOW
         </Link>
-
-        <button
-          type="button"
-          aria-label="Toggle menu"
-          aria-expanded={menuOpen}
-          onClick={() => setMenuOpen((v) => !v)}
-          className="flex h-10 w-10 flex-col items-center justify-center gap-1.5 md:hidden"
-        >
-          <span
-            className={`block h-[1.5px] w-6 rounded bg-gold transition-all duration-300 ${
-              menuOpen ? "translate-y-1.75 rotate-45" : ""
-            }`}
-          />
-          <span
-            className={`block h-[1.5px] w-6 rounded bg-gold transition-all duration-300 ${
-              menuOpen ? "opacity-0" : ""
-            }`}
-          />
-          <span
-            className={`block h-[1.5px] w-6 rounded bg-gold transition-all duration-300 ${
-              menuOpen ? "-translate-y-1.75 -rotate-45" : ""
-            }`}
-          />
-        </button>
       </div>
 
-      {/* Mobile overlay menu — onClick on wrapper closes it */}
-      <div
-        onClick={() => setMenuOpen(false)}
-        className={`fixed inset-0 z-40 flex flex-col items-center justify-center gap-8 bg-[#FAF6F0]/95 backdrop-blur-xl transition-all duration-400 md:hidden ${
-          menuOpen
-            ? "pointer-events-auto opacity-100 translate-y-0"
-            : "pointer-events-none opacity-0 -translate-y-3"
-        }`}
+      {/* Mobile-only hamburger */}
+      <button
+        type="button"
+        aria-label="Toggle menu"
+        aria-expanded={menuOpen}
+        onClick={() => setMenuOpen(!menuOpen)}
+        className="flex flex-col gap-1.25 lg:hidden"
+        style={{ background: "none", border: "none", cursor: "pointer", padding: "8px" }}
       >
-        {NAV_LINKS.map((link) => (
+        <span
+          className="bg-white"
+          style={{
+            width: "22px",
+            height: "1px",
+            transform: menuOpen ? "rotate(45deg) translateY(3px)" : "none",
+            transition: "transform 0.3s ease",
+          }}
+        />
+        <span
+          className="bg-white"
+          style={{
+            width: "22px",
+            height: "1px",
+            transform: menuOpen ? "rotate(-45deg) translateY(-3px)" : "none",
+            transition: "transform 0.3s ease",
+          }}
+        />
+      </button>
+
+      {/* Mobile dropdown menu — always rendered, animated via CSS */}
+      <div
+        className="fixed left-0 right-0 flex flex-col lg:hidden"
+        style={{
+          top: "72px",
+          background: "rgba(10,10,10,0.98)",
+          backdropFilter: "blur(14px)",
+          WebkitBackdropFilter: "blur(14px)",
+          borderBottom: "1px solid rgba(255,255,255,0.08)",
+          padding: "8px 24px 24px",
+          gap: "4px",
+          maxHeight: menuOpen ? "440px" : "0px",
+          opacity: menuOpen ? 1 : 0,
+          overflow: "hidden",
+          transition: "max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease",
+          pointerEvents: menuOpen ? "auto" : "none",
+        }}
+      >
+        {links.map((l, i) => (
           <Link
-            key={link.href}
-            href={link.href}
-            className={mobileLinkClass(pathname === link.href)}
+            key={l.href}
+            href={l.href}
+            onClick={() => setMenuOpen(false)}
+            style={{
+              fontSize: "14px",
+              letterSpacing: "0.15em",
+              color: "#FFFFFF",
+              textDecoration: "none",
+              padding: "14px 0",
+              borderBottom: i < links.length - 1 ? "1px solid rgba(255,255,255,0.06)" : "none",
+              opacity: menuOpen ? 1 : 0,
+              transform: menuOpen ? "translateY(0)" : "translateY(-10px)",
+              transition: `opacity 0.4s ease ${i * 0.05}s, transform 0.4s ease ${i * 0.05}s`,
+            }}
           >
-            {link.label}
+            {l.label}
           </Link>
         ))}
         <Link
           href="/products"
-          className="mt-4 rounded-sm border border-gold px-5 py-2 text-xs font-light uppercase tracking-[0.2em] text-gold transition-colors duration-300 hover:bg-gold hover:text-white"
+          onClick={() => setMenuOpen(false)}
+          style={{
+            marginTop: "16px",
+            alignSelf: "flex-start",
+            fontSize: "11px",
+            letterSpacing: "0.2em",
+            fontWeight: 600,
+            color: "#FFFFFF",
+            border: "1px solid #FFFFFF",
+            padding: "11px 24px",
+            textDecoration: "none",
+            opacity: menuOpen ? 1 : 0,
+            transform: menuOpen ? "translateY(0)" : "translateY(-10px)",
+            transition: `opacity 0.4s ease ${links.length * 0.05}s, transform 0.4s ease ${links.length * 0.05}s`,
+          }}
         >
-          Shop Now
+          SHOP NOW
         </Link>
       </div>
-
-      {/* On phones the bar is always slightly opaque for legibility. */}
-      <style>{`
-        @media (max-width: 768px) {
-          .site-nav {
-            background-color: rgba(250,246,240,0.98) !important;
-            backdrop-filter: blur(14px) saturate(140%) !important;
-            -webkit-backdrop-filter: blur(14px) saturate(140%) !important;
-            border-bottom: 1px solid rgba(184,147,42,0.15) !important;
-          }
-        }
-      `}</style>
     </nav>
   );
 }

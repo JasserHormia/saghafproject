@@ -2,8 +2,8 @@
 
 import { useState, type CSSProperties } from "react";
 
-const GOLD = "#D4A843";
-const MUTED = "rgba(245,237,224,0.6)";
+const GOLD = "#8B2236";
+const MUTED = "rgba(245,245,245,0.6)";
 
 const SOCIALS = [
   { label: "Instagram", href: "https://instagram.com" },
@@ -28,8 +28,8 @@ export default function Footer() {
       style={{
         position: "relative",
         zIndex: 10,
-        backgroundColor: "#2C1F0A",
-        borderTop: "1px solid rgba(184,147,42,0.2)",
+        backgroundColor: "#0A0A0A",
+        borderTop: "1px solid #2A2A2A",
         padding: "2.5rem 2rem",
       }}
     >
@@ -50,7 +50,7 @@ export default function Footer() {
           <img
             src="/shaghaf_logo_eng.png"
             alt="Shaghaf"
-            style={{ width: "110px", height: "auto", filter: "brightness(10)" }}
+            style={{ width: "110px", height: "auto", filter: "brightness(0) invert(1)" }}
           />
         </div>
 

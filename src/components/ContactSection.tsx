@@ -2,13 +2,13 @@
 
 import { useState, type CSSProperties, type FormEvent } from "react";
 
-const GOLD = "#B8932A";
-const GOLD_LIGHT = "#D4A843";
+const GOLD = "#8B2236";
+const GOLD_LIGHT = "#8B2236";
 const WHITE = "#FFFFFF";
-const TEXT_DARK = "#2C1F0A";
-const TEXT_MID = "#6B5A3E";
-const CREAM = "#FAF6F0";
-const SERIF = '"Cormorant Garamond", Georgia, serif';
+const TEXT_DARK = "#F5F5F5";
+const TEXT_MID = "#9A9A9A";
+const CREAM = "#0A0A0A";
+const SERIF = '"Inter", sans-serif';
 
 const INQUIRY_TYPES = [
   "General Inquiry",
@@ -46,7 +46,7 @@ export default function ContactSection() {
     width: "100%",
     backgroundColor: "transparent",
     border: "none",
-    borderBottom: `1px solid ${focused === name ? GOLD : "rgba(184,147,42,0.35)"}`,
+    borderBottom: `1px solid ${focused === name ? GOLD : "#2A2A2A"}`,
     borderRadius: 0,
     padding: "0.7rem 0.25rem",
     color: TEXT_DARK,
@@ -62,21 +62,9 @@ export default function ContactSection() {
       style={{
         position: "relative",
         padding: "7rem 2rem",
-        background: "linear-gradient(180deg, #FAF6F0 0%, #F0E8D8 100%)",
+        backgroundColor: "#0A0A0A",
       }}
     >
-      {/* gold dotted-grid overlay */}
-      <span
-        aria-hidden="true"
-        style={{
-          position: "absolute",
-          inset: 0,
-          backgroundImage:
-            "radial-gradient(rgba(184,147,42,0.08) 1px, transparent 1px)",
-          backgroundSize: "26px 26px",
-          pointerEvents: "none",
-        }}
-      />
 
       <div style={{ position: "relative", zIndex: 1, maxWidth: "780px", margin: "0 auto" }}>
         {/* heading */}
@@ -98,7 +86,7 @@ export default function ContactSection() {
             style={{
               fontFamily: SERIF,
               fontSize: "clamp(2.2rem, 4vw, 3.4rem)",
-              fontWeight: 500,
+              fontWeight: 800,
               color: TEXT_DARK,
               margin: "0.75rem 0 0",
               transitionDelay: "0.1s",
@@ -115,7 +103,7 @@ export default function ContactSection() {
         {/* glass form */}
         <form
           onSubmit={handleSubmit}
-          className="glass reveal reveal-left"
+          className="glass reveal reveal-left contact-form"
           style={{
             padding: "2.5rem",
             borderRadius: "4px",
@@ -210,18 +198,13 @@ export default function ContactSection() {
               fontWeight: 600,
               letterSpacing: "0.22em",
               textTransform: "uppercase",
-              padding: "0.95rem",
-              color: WHITE,
-              backgroundColor: submitted
-                ? "rgba(184,147,42,0.6)"
-                : btnHover
-                  ? GOLD_LIGHT
-                  : GOLD,
+              padding: "1rem",
+              color: submitted ? "#9A9A9A" : btnHover ? WHITE : "#0A0A0A",
+              backgroundColor: submitted ? "#2A2A2A" : btnHover ? GOLD : WHITE,
               border: "none",
-              borderRadius: "2px",
+              borderRadius: 0,
               cursor: submitted ? "default" : "pointer",
-              boxShadow: btnHover && !submitted ? "0 0 28px rgba(184,147,42,0.5)" : "none",
-              transition: "background-color 0.35s ease, box-shadow 0.35s ease",
+              transition: "background-color 0.35s ease, color 0.35s ease",
             }}
           >
             {submitted ? "Thank You — We'll Be in Touch" : "Send Message"}
@@ -261,8 +244,8 @@ export default function ContactSection() {
                   alignItems: "center",
                   justifyContent: "center",
                   borderRadius: "50%",
-                  border: `1px solid rgba(184,147,42,0.3)`,
-                  backgroundColor: "rgba(255,255,255,0.6)",
+                  border: `1px solid rgba(255,255,255,0.3)`,
+                  backgroundColor: "rgba(255,255,255,0.05)",
                 }}
               >
                 {d.icon}
@@ -287,10 +270,11 @@ export default function ContactSection() {
       </div>
 
       <style>{`
-        ::placeholder { color: #9E8B6E; }
+        ::placeholder { color: #6B6B6B; }
         @media (max-width: 767px) {
           .contact-row { grid-template-columns: 1fr !important; }
           .contact-details { grid-template-columns: 1fr !important; gap: 2rem !important; }
+          .contact-form { padding: 1.5rem !important; }
         }
       `}</style>
     </section>

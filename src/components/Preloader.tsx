@@ -2,9 +2,9 @@
 
 import { useEffect, useRef, useState } from "react";
 
-const GOLD = "#B8932A";
-const TEXT_DARK = "#2C1F0A";
-const SERIF = '"Cormorant Garamond", Georgia, serif';
+const GOLD = "#8B2236";
+const TEXT_DARK = "#F5F5F5";
+const SERIF = '"Inter", sans-serif';
 
 const LETTERS = "SHAGHAF".split("");
 
@@ -54,7 +54,7 @@ export default function Preloader({ onComplete }: { onComplete: () => void }) {
         alignItems: "center",
         justifyContent: "center",
         gap: "1.5rem",
-        background: "linear-gradient(135deg, #F5EDE0 0%, #EDE0CC 100%)",
+        background: "linear-gradient(135deg, #141414 0%, #1F1F1F 100%)",
         opacity: fadingOut ? 0 : 1,
         transform: fadingOut ? "scale(1.05)" : "scale(1)",
         transition: "opacity 0.6s ease, transform 0.6s ease",
@@ -74,7 +74,7 @@ export default function Preloader({ onComplete }: { onComplete: () => void }) {
           objectFit: "contain",
           opacity: logoIn ? 1 : 0,
           transform: logoIn ? "scale(1)" : "scale(0.8)",
-          filter: "drop-shadow(0 0 30px rgba(184,147,42,0.4))",
+          filter: "brightness(0) invert(1) drop-shadow(0 0 26px rgba(139,34,54,0.5))",
           transition: "opacity 0.8s cubic-bezier(0.16,1,0.3,1), transform 0.8s cubic-bezier(0.16,1,0.3,1)",
         }}
       />
@@ -84,7 +84,7 @@ export default function Preloader({ onComplete }: { onComplete: () => void }) {
         style={{
           height: "1px",
           width: lineIn ? "180px" : "0px",
-          background: "linear-gradient(90deg, transparent, #B8932A, transparent)",
+          background: "linear-gradient(90deg, transparent, #8B2236, transparent)",
           transition: "width 0.6s cubic-bezier(0.16,1,0.3,1)",
         }}
       />

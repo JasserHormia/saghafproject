@@ -8,8 +8,8 @@ import {
   type ReactNode,
 } from "react";
 
-const GOLD = "#B8932A";
-const TEXT_MID = "#6B5A3E";
+const GOLD = "#8B2236";
+const TEXT_MID = "#9A9A9A";
 
 /* ------------------------------------------------------------------ */
 /*  Line-art icons                                                     */
@@ -105,9 +105,9 @@ export default function FeaturesStrip() {
       style={{
         position: "relative",
         zIndex: 10,
-        backgroundColor: "rgba(255,255,255,0.8)",
-        borderTop: "1px solid rgba(184,147,42,0.12)",
-        borderBottom: "1px solid rgba(184,147,42,0.12)",
+        backgroundColor: "#0A0A0A",
+        borderTop: "1px solid rgba(255,255,255,0.12)",
+        borderBottom: "1px solid rgba(255,255,255,0.12)",
         padding: "2rem 2rem",
       }}
     >
@@ -130,7 +130,7 @@ export default function FeaturesStrip() {
               alignItems: "center",
               gap: "1rem",
               padding: "0.5rem 1.5rem",
-              borderLeft: i === 0 ? "none" : "1px solid rgba(184,147,42,0.2)",
+              borderLeft: i === 0 ? "none" : "1px solid rgba(255,255,255,0.2)",
               ...item(i),
             }}
           >

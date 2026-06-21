@@ -1,94 +1,164 @@
-/* Google Fonts — must precede all other rules per CSS spec */
-@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap");
 
 @import "tailwindcss";
 @config "../../tailwind.config.ts";
 
 /* ------------------------------------------------------------------ */
-/*  Brand palette — warm cream & gold                                  */
+/*  Monochrome editorial palette                                       */
 /* ------------------------------------------------------------------ */
 :root {
-  --cream: #f5ede0;
-  --cream-dark: #ede0cc;
-  --cream-deeper: #e0ceaf;
-  --warm-white: #faf6f0;
-  --gold: #b8932a;
-  --gold-light: #d4a843;
-  --gold-pale: #e8d5a3;
-  --obsidian: #1a1208;
-  --text-dark: #2c1f0a;
-  --text-mid: #6b5a3e;
-  --text-light: #9e8b6e;
-  --marble: #f0eae0;
+  --black: #0a0a0a;
+  --black-soft: #141414;
+  --charcoal: #1f1f1f;
+  --gray-dark: #2a2a2a;
+  --gray-mid: #6b6b6b;
+  --gray-light: #9a9a9a;
+  --gray-pale: #d4d4d4;
+  --white: #f5f5f5;
+  --white-pure: #ffffff;
+  --burgundy: #6b1626;
+  --burgundy-light: #8b2236;
+  --burgundy-deep: #4a0f1a;
 
-  /* legacy aliases kept so stray references degrade gracefully */
-  --copper: #8b5e3c;
-  --rose: #e8c4b8;
-  --ivory: #f5ede0;
-
-  --background: var(--warm-white);
-  --foreground: var(--text-dark);
-
-  --font-serif: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+  --background: var(--black);
+  --foreground: var(--white);
   --font-sans: "Inter", system-ui, -apple-system, sans-serif;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --color-cream: var(--cream);
-  --color-cream-dark: var(--cream-dark);
-  --color-warm-white: var(--warm-white);
-  --color-marble: var(--marble);
-  --color-gold: var(--gold);
-  --color-gold-light: var(--gold-light);
-  --color-gold-pale: var(--gold-pale);
-  --color-obsidian: var(--obsidian);
-  --color-text-dark: var(--text-dark);
-  --color-text-mid: var(--text-mid);
-  --color-text-light: var(--text-light);
-  --color-rose: var(--rose);
-  --color-ivory: var(--ivory);
-  --font-serif: var(--font-serif);
+  --color-black: var(--black);
+  --color-black-soft: var(--black-soft);
+  --color-charcoal: var(--charcoal);
+  --color-gray-dark: var(--gray-dark);
+  --color-gray-mid: var(--gray-mid);
+  --color-gray-light: var(--gray-light);
+  --color-gray-pale: var(--gray-pale);
+  --color-white: var(--white);
+  --color-burgundy: var(--burgundy);
+  --color-burgundy-light: var(--burgundy-light);
+  --color-burgundy-deep: var(--burgundy-deep);
   --font-sans: var(--font-sans);
 }
 
-/* ------------------------------------------------------------------ */
-/*  Base                                                               */
-/* ------------------------------------------------------------------ */
-html {
-  scroll-behavior: smooth;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-/* Remove the blue tap flash on iOS/Android */
+html {
+  background-color: var(--black);
+}
+
+body {
+  background-color: var(--black);
+  color: var(--white);
+  font-family: "Inter", sans-serif;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.font-display {
+  font-family: "Inter", sans-serif;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+::-webkit-scrollbar {
+  width: 3px;
+}
+::-webkit-scrollbar-track {
+  background: var(--black);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--burgundy);
+}
+
+::selection {
+  background: var(--burgundy);
+  color: var(--white);
+}
+
+.text-accent {
+  color: var(--burgundy-light);
+}
+.bg-accent {
+  background: var(--burgundy);
+}
+
+.hairline {
+  height: 1px;
+  background: var(--gray-dark);
+}
+.hairline-accent {
+  height: 1px;
+  background: var(--burgundy);
+}
+
+/* Flat panel surface for the dark theme (no glassmorphism) */
+.glass {
+  background: var(--black-soft);
+  border: 1px solid var(--gray-dark);
+}
+
+/* Divider used by section headers (replaces old gold-line) */
+.gold-line {
+  height: 1px;
+  width: 100%;
+  border: none;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--gray-dark) 25%,
+    var(--burgundy) 50%,
+    var(--gray-dark) 75%,
+    transparent
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/*  Mobile / input fixes                                               */
+/* ------------------------------------------------------------------ */
 * {
   -webkit-tap-highlight-color: transparent;
 }
-
-/* Prevent iOS auto-zoom when focusing form fields */
 input,
 textarea,
 select {
   font-size: 16px;
 }
 
-/* Custom cursor — hide native cursor on fine-pointer (desktop) devices only */
-@media (hover: hover) and (pointer: fine) {
-  *,
-  body {
-    cursor: none;
-  }
+/* ------------------------------------------------------------------ */
+/*  Scroll reveal                                                      */
+/* ------------------------------------------------------------------ */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition:
+    opacity 1s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
 }
-
-/* Touch devices: keep the native cursor, never the custom one */
-@media (pointer: coarse) {
-  *,
-  body {
-    cursor: auto !important;
-  }
-  .custom-cursor {
-    display: none !important;
-  }
+.reveal.visible {
+  opacity: 1;
+  transform: none;
+}
+.reveal-left {
+  transform: translateX(-60px);
+}
+.reveal-right {
+  transform: translateX(60px);
+}
+.reveal-scale {
+  transform: scale(0.85);
+}
+.reveal-left.visible,
+.reveal-right.visible,
+.reveal-scale.visible {
+  transform: none;
 }
 
 /* Luxury line-reveal (overflow-clipped translateY) */
@@ -104,14 +174,12 @@ select {
   transform: translateY(0);
 }
 
-/* Generic spinner (3D loading skeleton) */
+/* Spinner + preloader ring */
 @keyframes spin360 {
   to {
     transform: rotate(360deg);
   }
 }
-
-/* Preloader progress ring */
 @keyframes ringDraw {
   from {
     stroke-dashoffset: 251;
@@ -119,128 +187,6 @@ select {
   to {
     stroke-dashoffset: 0;
   }
-}
-
-body {
-  background-color: var(--warm-white);
-  color: var(--text-dark);
-  font-family: var(--font-sans);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-.font-serif {
-  font-family: var(--font-serif);
-}
-
-::selection {
-  background-color: color-mix(in srgb, var(--gold) 30%, transparent);
-  color: var(--text-dark);
-}
-
-/* ------------------------------------------------------------------ */
-/*  Custom scrollbar — gold on cream                                   */
-/* ------------------------------------------------------------------ */
-* {
-  scrollbar-width: thin;
-  scrollbar-color: var(--gold) var(--cream-dark);
-}
-
-::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
-}
-
-::-webkit-scrollbar-track {
-  background: var(--cream-dark);
-}
-
-::-webkit-scrollbar-thumb {
-  background: linear-gradient(var(--gold-pale), var(--gold), var(--gold-light));
-  border: 2px solid var(--cream-dark);
-  border-radius: 9999px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(var(--gold), var(--gold-light));
-}
-
-/* ------------------------------------------------------------------ */
-/*  Gold shimmer text                                                  */
-/* ------------------------------------------------------------------ */
-.gold-text {
-  background: linear-gradient(
-    100deg,
-    var(--gold) 0%,
-    var(--gold-light) 30%,
-    var(--gold-pale) 50%,
-    var(--gold-light) 70%,
-    var(--gold) 100%
-  );
-  background-size: 200% auto;
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  color: transparent;
-  animation: gold-shimmer 6s linear infinite;
-}
-
-@keyframes gold-shimmer {
-  to {
-    background-position: -200% center;
-  }
-}
-
-/* ------------------------------------------------------------------ */
-/*  Glass morphism — light                                             */
-/* ------------------------------------------------------------------ */
-.glass {
-  background: rgba(255, 255, 255, 0.6);
-  backdrop-filter: blur(20px) saturate(130%);
-  -webkit-backdrop-filter: blur(20px) saturate(130%);
-  border: 1px solid rgba(184, 147, 42, 0.2);
-  box-shadow:
-    0 8px 32px rgba(184, 147, 42, 0.1),
-    inset 0 1px 0 rgba(255, 255, 255, 0.6);
-}
-
-/* ------------------------------------------------------------------ */
-/*  Scroll reveal                                                      */
-/* ------------------------------------------------------------------ */
-.reveal {
-  opacity: 0;
-  transform: translateY(50px);
-  transition:
-    opacity 1s cubic-bezier(0.16, 1, 0.3, 1),
-    transform 1s cubic-bezier(0.16, 1, 0.3, 1);
-  will-change: opacity, transform;
-}
-
-.reveal.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* Directional / scale variants (combine with .reveal) */
-.reveal-left {
-  transform: translateX(-60px);
-}
-.reveal-right {
-  transform: translateX(60px);
-}
-.reveal-scale {
-  transform: scale(0.85);
-}
-.reveal-left.visible,
-.reveal-right.visible,
-.reveal-scale.visible {
-  transform: none;
 }
 
 /* Lenis smooth scroll */
@@ -267,102 +213,7 @@ html.lenis body {
     transform: none;
     transition: none;
   }
-
-  .gold-text {
-    animation: none;
-  }
-
   html {
     scroll-behavior: auto;
   }
-}
-
-/* ------------------------------------------------------------------ */
-/*  Gold divider line                                                  */
-/* ------------------------------------------------------------------ */
-.gold-line {
-  height: 1px;
-  width: 100%;
-  border: none;
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    color-mix(in srgb, var(--gold) 40%, transparent) 20%,
-    var(--gold-light) 50%,
-    color-mix(in srgb, var(--gold) 40%, transparent) 80%,
-    transparent 100%
-  );
-}
-
-/* ------------------------------------------------------------------ */
-/*  Perfume card (light)                                               */
-/* ------------------------------------------------------------------ */
-.perfume-card {
-  position: relative;
-  overflow: hidden;
-  border: 1px solid rgba(184, 147, 42, 0.15);
-  background: rgba(255, 255, 255, 0.9);
-  border-radius: 2px;
-  transition:
-    transform 0.6s cubic-bezier(0.16, 1, 0.3, 1),
-    box-shadow 0.6s cubic-bezier(0.16, 1, 0.3, 1),
-    border-color 0.6s ease;
-}
-
-.perfume-card::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(
-    circle at 50% 0%,
-    rgba(184, 147, 42, 0.1),
-    transparent 70%
-  );
-  opacity: 0;
-  transition: opacity 0.6s ease;
-  pointer-events: none;
-}
-
-.perfume-card img {
-  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.perfume-card:hover {
-  transform: translateY(-10px);
-  border-color: rgba(184, 147, 42, 0.4);
-  box-shadow:
-    0 20px 60px rgba(184, 147, 42, 0.15),
-    0 0 0 1px rgba(184, 147, 42, 0.15);
-}
-
-.perfume-card:hover::after {
-  opacity: 1;
-}
-
-.perfume-card:hover img {
-  transform: scale(1.06);
-}
-
-/* ------------------------------------------------------------------ */
-/*  Navigation                                                         */
-/* ------------------------------------------------------------------ */
-.nav {
-  transition:
-    background-color 0.4s ease,
-    backdrop-filter 0.4s ease,
-    border-color 0.4s ease,
-    box-shadow 0.4s ease,
-    padding 0.4s ease;
-  background-color: rgba(250, 246, 240, 0.8);
-  backdrop-filter: blur(14px) saturate(140%);
-  -webkit-backdrop-filter: blur(14px) saturate(140%);
-  border-bottom: 1px solid transparent;
-}
-
-.nav-scrolled {
-  background-color: rgba(245, 237, 224, 0.95);
-  backdrop-filter: blur(14px) saturate(140%);
-  -webkit-backdrop-filter: blur(14px) saturate(140%);
-  border-bottom: 1px solid rgba(184, 147, 42, 0.2);
-  box-shadow: 0 4px 30px rgba(184, 147, 42, 0.1);
 }

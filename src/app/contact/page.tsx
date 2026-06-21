@@ -10,14 +10,14 @@ import Navbar from "@/components/Navbar";
 import ScrollAnimations from "@/components/ScrollAnimations";
 import Footer from "@/components/Footer";
 
-const GOLD = "#B8932A";
-const GOLD_LIGHT = "#D4A843";
+const GOLD = "#8B2236";
+const GOLD_LIGHT = "#8B2236";
 const WHITE = "#FFFFFF";
-const CREAM = "#FAF6F0";
-const TEXT_DARK = "#2C1F0A";
-const TEXT_MID = "#6B5A3E";
+const CREAM = "#0A0A0A";
+const TEXT_DARK = "#F5F5F5";
+const TEXT_MID = "#9A9A9A";
 const WA_GREEN = "#25D366";
-const SERIF = '"Cormorant Garamond", Georgia, serif';
+const SERIF = '"Inter", sans-serif';
 
 const WA_NUMBER = "971501405806";
 const waLink = (text: string) =>
@@ -139,9 +139,9 @@ function SocialIcon({ label, path }: { label: string; path: ReactNode }) {
         alignItems: "center",
         justifyContent: "center",
         borderRadius: "50%",
-        border: `1px solid ${hover ? GOLD : "rgba(184,147,42,0.3)"}`,
+        border: `1px solid ${hover ? GOLD : "rgba(255,255,255,0.3)"}`,
         color: hover ? GOLD : TEXT_MID,
-        backgroundColor: hover ? "rgba(184,147,42,0.08)" : "transparent",
+        backgroundColor: hover ? "rgba(255,255,255,0.08)" : "transparent",
         transition: "color 0.3s ease, border-color 0.3s ease, background-color 0.3s ease",
       }}
     >
@@ -169,7 +169,7 @@ function FaqItem({
   return (
     <div
       style={{
-        borderBottom: "1px solid rgba(184,147,42,0.18)",
+        borderBottom: "1px solid rgba(255,255,255,0.18)",
       }}
     >
       <button
@@ -253,7 +253,7 @@ export default function ContactPage() {
     width: "100%",
     backgroundColor: "transparent",
     border: "none",
-    borderBottom: `1px solid ${focused === name ? GOLD : "rgba(184,147,42,0.35)"}`,
+    borderBottom: `1px solid ${focused === name ? GOLD : "rgba(255,255,255,0.35)"}`,
     borderRadius: 0,
     padding: "0.7rem 0.25rem",
     color: TEXT_DARK,
@@ -280,7 +280,7 @@ export default function ContactPage() {
             maxWidth: "120vw",
             height: "600px",
             transform: "translate(-50%, -50%)",
-            background: "radial-gradient(circle, rgba(184,147,42,0.18), transparent 65%)",
+            background: "radial-gradient(circle, rgba(255,255,255,0.18), transparent 65%)",
             pointerEvents: "none",
           }}
         />
@@ -290,7 +290,7 @@ export default function ContactPage() {
           </span>
           <h1 style={{ fontFamily: SERIF, fontSize: "clamp(2.6rem, 5vw, 4.4rem)", fontWeight: 500, margin: "0.75rem 0 1rem" }}>
             Let&apos;s Talk{" "}
-            <span className="gold-text" style={{ fontStyle: "italic" }}>
+            <span className="text-accent">
               Fragrance
             </span>
           </h1>
@@ -306,11 +306,11 @@ export default function ContactPage() {
             style={{
               textAlign: "center",
               padding: "3.5rem 2rem",
-              borderRadius: "6px",
-              backgroundColor: WHITE,
-              border: `1px solid ${WA_GREEN}40`,
-              borderLeft: `4px solid ${WA_GREEN}`,
-              boxShadow: "0 10px 40px rgba(37,211,102,0.12)",
+              borderRadius: 0,
+              backgroundColor: "#141414",
+              border: "1px solid #2A2A2A",
+              borderLeft: "4px solid #6B1626",
+              boxShadow: "0 10px 40px rgba(0,0,0,0.4)",
             }}
           >
             <div
@@ -328,7 +328,7 @@ export default function ContactPage() {
             >
               <WhatsAppIcon size={40} color="#fff" />
             </div>
-            <h2 style={{ fontFamily: SERIF, fontSize: "clamp(2rem, 4vw, 2.8rem)", fontWeight: 500, margin: "0 0 0.75rem" }}>
+            <h2 className="font-display" style={{ fontSize: "clamp(2rem, 4vw, 2.8rem)", fontWeight: 800, letterSpacing: "-0.01em", margin: "0 0 0.75rem" }}>
               Order Directly on WhatsApp
             </h2>
             <p style={{ maxWidth: "30rem", margin: "0 auto 2rem", fontSize: "1rem", lineHeight: 1.7, color: TEXT_MID }}>
@@ -376,11 +376,11 @@ export default function ContactPage() {
                     fontSize: "0.72rem",
                     letterSpacing: "0.06em",
                     padding: "0.55rem 1.1rem",
-                    color: WA_GREEN,
-                    border: `1px solid ${WA_GREEN}66`,
-                    borderRadius: "9999px",
+                    color: "#8B2236",
+                    border: "1px solid rgba(139,34,54,0.45)",
+                    borderRadius: 0,
                     textDecoration: "none",
-                    backgroundColor: "rgba(37,211,102,0.06)",
+                    backgroundColor: "rgba(139,34,54,0.06)",
                     transition: "background-color 0.3s ease, color 0.3s ease",
                   }}
                 >
@@ -430,7 +430,7 @@ export default function ContactPage() {
                   <label htmlFor="subject" style={labelStyle}>Subject</label>
                   <select id="subject" name="subject" defaultValue={SUBJECTS[0]} style={{ ...fieldStyle("subject"), appearance: "none", cursor: "pointer" }} onFocus={() => setFocused("subject")} onBlur={() => setFocused(null)}>
                     {SUBJECTS.map((s) => (
-                      <option key={s} value={s} style={{ backgroundColor: WHITE }}>{s}</option>
+                      <option key={s} value={s} style={{ backgroundColor: "#141414" }}>{s}</option>
                     ))}
                   </select>
                 </div>
@@ -452,11 +452,11 @@ export default function ContactPage() {
                   textTransform: "uppercase",
                   padding: "0.95rem",
                   color: WHITE,
-                  backgroundColor: submitted ? "rgba(184,147,42,0.6)" : btnHover ? GOLD_LIGHT : GOLD,
+                  backgroundColor: submitted ? "rgba(255,255,255,0.6)" : btnHover ? GOLD_LIGHT : GOLD,
                   border: "none",
                   borderRadius: "2px",
                   cursor: submitted ? "default" : "pointer",
-                  boxShadow: btnHover && !submitted ? "0 0 28px rgba(184,147,42,0.5)" : "none",
+                  boxShadow: btnHover && !submitted ? "0 0 28px rgba(255,255,255,0.5)" : "none",
                   transition: "background-color 0.35s ease, box-shadow 0.35s ease",
                 }}
               >
@@ -487,8 +487,8 @@ export default function ContactPage() {
                         justifyContent: "center",
                         fontSize: "1.1rem",
                         borderRadius: "50%",
-                        border: "1px solid rgba(184,147,42,0.3)",
-                        backgroundColor: "rgba(184,147,42,0.06)",
+                        border: "1px solid rgba(255,255,255,0.3)",
+                        backgroundColor: "rgba(255,255,255,0.06)",
                       }}
                     >
                       {d.icon}
@@ -508,14 +508,12 @@ export default function ContactPage() {
                   minHeight: "180px",
                   borderRadius: "4px",
                   border: `1px solid ${GOLD}`,
-                  boxShadow: "inset 0 0 60px rgba(184,147,42,0.08)",
                   display: "flex",
                   flexDirection: "column",
                   alignItems: "center",
                   justifyContent: "center",
                   gap: "0.5rem",
-                  background:
-                    "repeating-linear-gradient(45deg, rgba(184,147,42,0.06) 0 12px, transparent 12px 24px), #F0EAE0",
+                  backgroundColor: "#141414",
                 }}
               >
                 <span style={{ fontSize: "2rem" }} aria-hidden="true">📍</span>
@@ -570,8 +568,8 @@ export default function ContactPage() {
       <Footer />
 
       <style>{`
-        ::placeholder { color: #9E8B6E; }
-        .wa-chip:hover { background-color: ${WA_GREEN} !important; color: #fff !important; }
+        ::placeholder { color: #6B6B6B; }
+        .wa-chip:hover { background-color: #6B1626 !important; color: #fff !important; }
         @media (max-width: 880px) {
           .contact-cols { grid-template-columns: 1fr !important; }
         }

@@ -12,12 +12,12 @@ import Navbar from "@/components/Navbar";
 import ScrollAnimations from "@/components/ScrollAnimations";
 import Footer from "@/components/Footer";
 
-const GOLD = "#B8932A";
+const GOLD = "#8B2236";
 const WHITE = "#FFFFFF";
-const CREAM = "#FAF6F0";
-const TEXT_DARK = "#2C1F0A";
-const TEXT_MID = "#6B5A3E";
-const SERIF = '"Cormorant Garamond", Georgia, serif';
+const CREAM = "#0A0A0A";
+const TEXT_DARK = "#F5F5F5";
+const TEXT_MID = "#9A9A9A";
+const SERIF = '"Inter", sans-serif';
 
 type Product = {
   id: number;
@@ -31,18 +31,21 @@ type Product = {
 };
 
 const PRODUCTS: Product[] = [
-  { id: 1, name: "Oud Al Layl", arabic: "عود الليل", notes: "Dark Oud · Amber · Musk", price: 495, accent: "#8B2040", category: "Oud", image: "/perfume1.jpeg" },
-  { id: 2, name: "Wardah Gold", arabic: "وردة الذهب", notes: "Rose · Saffron · Sandalwood", price: 630, accent: "#C9A84C", category: "Floral", image: "/perfume2.jpeg" },
-  { id: 3, name: "Breeze of Mecca", arabic: "نسيم مكة", notes: "Frankincense · Cedar · Neroli", price: 400, accent: "#4A7FA5", category: "Fresh", image: "/perfume3.jpeg" },
-  { id: 4, name: "Sultana Noir", arabic: "سلطانة نوار", notes: "Black Iris · Velvet Oud · Vanilla", price: 765, accent: "#6B4C9A", category: "Oriental", image: "/perfume4.jpeg" },
-  { id: 5, name: "Desert Bloom", arabic: "زهرة الصحراء", notes: "Jasmine · White Musk · Amber", price: 430, accent: "#D4956A", category: "Floral", image: "/perfume5.jpeg" },
-  { id: 6, name: "Al Majd", arabic: "المجد", notes: "Royal Oud · Leather · Tobacco", price: 910, accent: "#8B6914", category: "Oud", image: "/perfume1.jpeg" },
-  { id: 7, name: "Raha", arabic: "راحة", notes: "Green Tea · Bergamot · Vetiver", price: 315, accent: "#4A7A5A", category: "Fresh", image: "/perfume2.jpeg" },
-  { id: 8, name: "Layl Al Ward", arabic: "ليل الورد", notes: "Midnight Rose · Oud · Patchouli", price: 570, accent: "#9A3060", category: "Floral", image: "/perfume3.jpeg" },
-  { id: 9, name: "Amber Sands", arabic: "رمال العنبر", notes: "Warm Amber · Vanilla · Caramel", price: 390, accent: "#B8860B", category: "Oriental", image: "/perfume4.jpeg" },
-  { id: 10, name: "Zafaran", arabic: "زعفران", notes: "Pure Saffron · Rose · Musk", price: 725, accent: "#C8602A", category: "Oriental", image: "/perfume5.jpeg" },
-  { id: 11, name: "Cedar Smoke", arabic: "دخان الأرز", notes: "Cedarwood · Smoke · Vetiver", price: 455, accent: "#5A4A3A", category: "Fresh", image: "/perfume1.jpeg" },
-  { id: 12, name: "Noor", arabic: "نور", notes: "White Musk · Lily · Soft Woods", price: 355, accent: "#8A9A7A", category: "Floral", image: "/perfume2.jpeg" },
+  { id: 1, name: "Oud Al Layl", arabic: "عود الليل", notes: "Dark Oud · Amber · Musk", price: 145, accent: "#8B2040", category: "Oud", image: "/assets/perfume1.jpeg" },
+  { id: 2, name: "Wardah Gold", arabic: "وردة الذهب", notes: "Rose · Saffron · Sandalwood", price: 169, accent: "#C9A84C", category: "Floral", image: "/assets/perfume2.jpeg" },
+  { id: 3, name: "Breeze of Mecca", arabic: "نسيم مكة", notes: "Frankincense · Cedar · Neroli", price: 89, accent: "#4A7FA5", category: "Fresh", image: "/assets/perfume3.jpeg" },
+  { id: 4, name: "Sultana Noir", arabic: "سلطانة نوار", notes: "Black Iris · Velvet Oud · Vanilla", price: 159, accent: "#6B4C9A", category: "Oriental", image: "/assets/perfume4.jpeg" },
+  { id: 5, name: "Desert Bloom", arabic: "زهرة الصحراء", notes: "Jasmine · White Musk · Amber", price: 99, accent: "#D4956A", category: "Floral", image: "/assets/perfume5.jpeg" },
+  { id: 6, name: "Al Majd", arabic: "المجد", notes: "Royal Oud · Leather · Tobacco", price: 165, accent: "#8B6914", category: "Oud", image: "/assets/perfume1.jpeg" },
+  { id: 7, name: "Raha", arabic: "راحة", notes: "Green Tea · Bergamot · Vetiver", price: 79, accent: "#4A7A5A", category: "Fresh", image: "/assets/perfume2.jpeg" },
+  { id: 8, name: "Layl Al Ward", arabic: "ليل الورد", notes: "Midnight Rose · Oud · Patchouli", price: 119, accent: "#9A3060", category: "Floral", image: "/assets/perfume3.jpeg" },
+  { id: 9, name: "Amber Sands", arabic: "رمال العنبر", notes: "Warm Amber · Vanilla · Caramel", price: 95, accent: "#B8860B", category: "Oriental", image: "/assets/perfume4.jpeg" },
+  { id: 10, name: "Zafaran", arabic: "زعفران", notes: "Pure Saffron · Rose · Musk", price: 149, accent: "#C8602A", category: "Oriental", image: "/assets/perfume5.jpeg" },
+  { id: 11, name: "Cedar Smoke", arabic: "دخان الأرز", notes: "Cedarwood · Smoke · Vetiver", price: 109, accent: "#5A4A3A", category: "Fresh", image: "/assets/perfume1.jpeg" },
+  { id: 12, name: "Noor", arabic: "نور", notes: "White Musk · Lily · Soft Woods", price: 85, accent: "#8A9A7A", category: "Floral", image: "/assets/perfume2.jpeg" },
+  { id: 13, name: "Layl Al Shams", arabic: "ليل الشمس", notes: "Bergamot · Amber · Cedarwood", price: 129, accent: "#C9A84C", category: "Fresh", image: "/assets/perfume6.jpeg" },
+  { id: 14, name: "Reef Al Noor", arabic: "ريف النور", notes: "White Musk · Iris · Sandalwood", price: 109, accent: "#8FA0B0", category: "Floral", image: "/assets/perfume7.jpeg" },
+  { id: 15, name: "Yasmeen Al Fajr", arabic: "ياسمين الفجر", notes: "Jasmine · Neroli · White Musk", price: 119, accent: "#B86B8A", category: "Floral", image: "/assets/perfume8.jpeg" },
 ];
 
 const CATEGORIES = ["All", "Oud", "Floral", "Fresh", "Oriental"] as const;
@@ -104,11 +107,9 @@ function ProductCard({
         flexDirection: "column",
         overflow: "hidden",
         borderRadius: "6px",
-        background: WHITE,
-        border: `1px solid ${hover ? "rgba(184,147,42,0.4)" : "rgba(184,147,42,0.1)"}`,
-        boxShadow: hover
-          ? "0 20px 60px rgba(184,147,42,0.15)"
-          : "0 4px 30px rgba(184,147,42,0.08)",
+        background: "#141414",
+        border: `1px solid ${hover ? "#6B1626" : "#2A2A2A"}`,
+        boxShadow: "none",
         transform: hover ? "translateY(-10px)" : "translateY(0)",
         transition: "transform 0.5s cubic-bezier(0.16,1,0.3,1), border-color 0.4s ease, box-shadow 0.4s ease",
       }}
@@ -152,8 +153,8 @@ function ProductCard({
             alignItems: "center",
             justifyContent: "center",
             borderRadius: "50%",
-            background: "rgba(255,255,255,0.85)",
-            border: "1px solid rgba(184,147,42,0.25)",
+            background: "rgba(20,20,20,0.7)",
+            border: "1px solid rgba(255,255,255,0.25)",
             cursor: "pointer",
             lineHeight: 0,
           }}
@@ -171,7 +172,7 @@ function ProductCard({
             justifyContent: "center",
             padding: "1.5rem",
             background:
-              "linear-gradient(to top, rgba(10,6,8,0.7) 0%, rgba(10,6,8,0.15) 45%, transparent 70%)",
+              "linear-gradient(to top, rgba(10,10,10,0.7) 0%, rgba(10,10,10,0.15) 45%, transparent 70%)",
             opacity: hover ? 1 : 0,
             transition: "opacity 0.5s ease",
             pointerEvents: hover ? "auto" : "none",
@@ -209,7 +210,7 @@ function ProductCard({
             textTransform: "uppercase",
             color: GOLD,
             padding: "0.25rem 0.6rem",
-            border: "1px solid rgba(184,147,42,0.3)",
+            border: "1px solid rgba(255,255,255,0.3)",
             borderRadius: "9999px",
           }}
         >
@@ -219,7 +220,7 @@ function ProductCard({
         <h3 style={{ fontFamily: SERIF, fontSize: "1.4rem", fontWeight: 500, color: TEXT_DARK, margin: "0.75rem 0 0" }}>
           {product.name}
         </h3>
-        <span style={{ fontFamily: SERIF, fontStyle: "italic", fontSize: "1.1rem", color: GOLD, lineHeight: 1.2, marginTop: "0.15rem" }}>
+        <span style={{ fontFamily: SERIF, fontSize: "1.1rem", color: GOLD, lineHeight: 1.2, marginTop: "0.15rem" }}>
           {product.arabic}
         </span>
         <span style={{ fontSize: "0.6rem", letterSpacing: "0.12em", textTransform: "uppercase", color: TEXT_MID, marginTop: "0.6rem" }}>
@@ -305,7 +306,7 @@ export default function ProductsPage() {
             maxWidth: "120vw",
             height: "600px",
             transform: "translate(-50%, -50%)",
-            background: "radial-gradient(circle, rgba(184,147,42,0.18), transparent 65%)",
+            background: "radial-gradient(circle, rgba(255,255,255,0.18), transparent 65%)",
             pointerEvents: "none",
           }}
         />
@@ -329,7 +330,7 @@ export default function ProductsPage() {
                 textTransform: "uppercase",
                 color: GOLD,
                 padding: "0.4rem 1rem",
-                border: `1px solid rgba(184,147,42,0.4)`,
+                border: `1px solid rgba(255,255,255,0.4)`,
                 borderRadius: "9999px",
               }}
             >
@@ -369,11 +370,11 @@ export default function ProductsPage() {
                       fontWeight: 600,
                       letterSpacing: "0.16em",
                       textTransform: "uppercase",
-                      padding: "0.55rem 1.2rem",
-                      color: active ? WHITE : GOLD,
-                      backgroundColor: active ? GOLD : WHITE,
-                      border: `1px solid ${GOLD}`,
-                      borderRadius: "9999px",
+                      padding: "0.55rem 1.3rem",
+                      color: active ? WHITE : "#9A9A9A",
+                      backgroundColor: active ? "#6B1626" : "transparent",
+                      border: `1px solid ${active ? "#6B1626" : "#2A2A2A"}`,
+                      borderRadius: 0,
                       cursor: "pointer",
                       transition: "background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease",
                     }}
@@ -398,8 +399,8 @@ export default function ProductsPage() {
                   fontSize: "0.8rem",
                   fontFamily: "inherit",
                   color: TEXT_DARK,
-                  backgroundColor: WHITE,
-                  border: `1px solid rgba(184,147,42,0.3)`,
+                  backgroundColor: "#141414",
+                  border: `1px solid rgba(255,255,255,0.3)`,
                   borderRadius: "2px",
                   padding: "0.55rem 0.9rem",
                   cursor: "pointer",
@@ -408,7 +409,7 @@ export default function ProductsPage() {
                 }}
               >
                 {Object.entries(SORTS).map(([key, label]) => (
-                  <option key={key} value={key} style={{ backgroundColor: WHITE }}>
+                  <option key={key} value={key} style={{ backgroundColor: "#141414" }}>
                     {label}
                   </option>
                 ))}

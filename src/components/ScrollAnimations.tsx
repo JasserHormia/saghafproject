@@ -88,8 +88,8 @@ export default function ScrollAnimations() {
         height: "2px",
         width: "0%",
         zIndex: 100,
-        background: "linear-gradient(90deg, #B8932A, #D4A843, #E8D5A3)",
-        boxShadow: "0 0 8px rgba(184,147,42,0.5)",
+        background: "linear-gradient(90deg, #6B1626, #8B2236, #6B1626)",
+        boxShadow: "0 0 8px rgba(139,34,54,0.5)",
         transition: "width 0.1s linear",
         pointerEvents: "none",
       }}

@@ -9,14 +9,14 @@ import Navbar from "@/components/Navbar";
 import ScrollAnimations from "@/components/ScrollAnimations";
 import Footer from "@/components/Footer";
 
-const GOLD = "#B8932A";
-const GOLD_LIGHT = "#D4A843";
+const GOLD = "#8B2236";
+const GOLD_LIGHT = "#8B2236";
 const WHITE = "#FFFFFF";
-const CREAM = "#FAF6F0";
-const DARK = "#2C1F0A";
-const TEXT_DARK = "#2C1F0A";
-const TEXT_MID = "#6B5A3E";
-const SERIF = '"Cormorant Garamond", Georgia, serif';
+const CREAM = "#0A0A0A";
+const DARK = "#6B1626";
+const TEXT_DARK = "#F5F5F5";
+const TEXT_MID = "#9A9A9A";
+const SERIF = '"Inter", sans-serif';
 
 /* ------------------------------------------------------------------ */
 /*  Reveal wrapper                                                     */
@@ -132,7 +132,7 @@ export default function AboutPage() {
             height: "900px",
             transform: "translate(-50%, -50%)",
             background:
-              "radial-gradient(circle, rgba(184,147,42,0.22) 0%, rgba(184,147,42,0.06) 35%, transparent 65%)",
+              "radial-gradient(circle, rgba(255,255,255,0.22) 0%, rgba(255,255,255,0.06) 35%, transparent 65%)",
             pointerEvents: "none",
           }}
         />
@@ -145,7 +145,7 @@ export default function AboutPage() {
               width: "150px",
               height: "auto",
               margin: "0 auto 2rem",
-              filter: "drop-shadow(0 0 22px rgba(184,147,42,0.5))",
+              filter: "brightness(0) invert(1) drop-shadow(0 0 22px rgba(139,34,54,0.4))",
             }}
           />
         </Reveal>
@@ -154,13 +154,13 @@ export default function AboutPage() {
             style={{
               fontFamily: SERIF,
               fontSize: "clamp(2.8rem, 6vw, 5rem)",
-              fontWeight: 500,
+              fontWeight: 800,
               lineHeight: 1.05,
               margin: 0,
             }}
           >
             Our Passion is{" "}
-            <span className="gold-text" style={{ fontStyle: "italic" }}>
+            <span className="text-accent" style={{ }}>
               Perfume
             </span>
           </h1>
@@ -203,7 +203,7 @@ export default function AboutPage() {
               style={{
                 padding: "3rem 2.5rem",
                 borderRadius: "4px",
-                borderColor: "rgba(184,147,42,0.4)",
+                borderColor: "rgba(255,255,255,0.4)",
               }}
             >
               <span
@@ -222,7 +222,6 @@ export default function AboutPage() {
               <p
                 style={{
                   fontFamily: SERIF,
-                  fontStyle: "italic",
                   fontSize: "1.7rem",
                   lineHeight: 1.5,
                   color: TEXT_DARK,
@@ -252,7 +251,7 @@ export default function AboutPage() {
                 style={{
                   fontFamily: SERIF,
                   fontSize: "clamp(2rem, 3.5vw, 3rem)",
-                  fontWeight: 500,
+                  fontWeight: 800,
                   margin: "0.75rem 0 1.5rem",
                 }}
               >
@@ -285,9 +284,9 @@ export default function AboutPage() {
                       textTransform: "uppercase",
                       color: GOLD_LIGHT,
                       padding: "0.55rem 1.2rem",
-                      border: `1px solid rgba(184,147,42,0.4)`,
+                      border: `1px solid rgba(255,255,255,0.4)`,
                       borderRadius: "9999px",
-                      backgroundColor: "rgba(184,147,42,0.06)",
+                      backgroundColor: "rgba(255,255,255,0.06)",
                     }}
                   >
                     {v}
@@ -303,8 +302,8 @@ export default function AboutPage() {
       <section
         style={{
           padding: "4rem 2rem",
-          borderTop: "1px solid rgba(184,147,42,0.3)",
-          borderBottom: "1px solid rgba(184,147,42,0.3)",
+          borderTop: "1px solid rgba(255,255,255,0.3)",
+          borderBottom: "1px solid rgba(255,255,255,0.3)",
           background: DARK,
         }}
       >
@@ -338,7 +337,7 @@ export default function AboutPage() {
                     fontSize: "0.7rem",
                     letterSpacing: "0.2em",
                     textTransform: "uppercase",
-                    color: "rgba(245,237,224,0.6)",
+                    color: "rgba(245,245,245,0.6)",
                     marginTop: "0.6rem",
                   }}
                 >
@@ -357,7 +356,7 @@ export default function AboutPage() {
             <span style={{ fontSize: "0.7rem", letterSpacing: "0.3em", textTransform: "uppercase", color: GOLD }}>
               Our People
             </span>
-            <h2 style={{ fontFamily: SERIF, fontSize: "clamp(2rem, 3.5vw, 3rem)", fontWeight: 500, margin: "0.75rem 0 0" }}>
+            <h2 style={{ fontFamily: SERIF, fontSize: "clamp(2rem, 3.5vw, 3rem)", fontWeight: 800, margin: "0.75rem 0 0" }}>
               The Minds Behind the Scent
             </h2>
             <div className="gold-line" style={{ maxWidth: "120px", margin: "1.5rem auto 0" }} />
@@ -395,8 +394,8 @@ export default function AboutPage() {
                       fontWeight: 600,
                       color: GOLD,
                       border: `1.5px solid ${GOLD}`,
-                      background: "radial-gradient(circle at 50% 30%, rgba(184,147,42,0.18), rgba(255,255,255,0.7))",
-                      boxShadow: "0 0 0 6px rgba(184,147,42,0.05)",
+                      background: "radial-gradient(circle at 50% 30%, rgba(139,34,54,0.35), rgba(255,255,255,0.05))",
+                      boxShadow: "0 0 0 6px rgba(255,255,255,0.05)",
                       marginBottom: "1rem",
                     }}
                   >
@@ -419,13 +418,13 @@ export default function AboutPage() {
       </section>
 
       {/* ============ 5. TIMELINE ============ */}
-      <section style={{ padding: "7rem 2rem", backgroundColor: "#FAF6F0" }}>
+      <section style={{ padding: "7rem 2rem", backgroundColor: "#0A0A0A" }}>
         <div style={{ maxWidth: "920px", margin: "0 auto" }}>
           <Reveal style={{ textAlign: "center", marginBottom: "4rem" }}>
             <span style={{ fontSize: "0.7rem", letterSpacing: "0.3em", textTransform: "uppercase", color: GOLD }}>
               Through the Years
             </span>
-            <h2 style={{ fontFamily: SERIF, fontSize: "clamp(2rem, 3.5vw, 3rem)", fontWeight: 500, margin: "0.75rem 0 0" }}>
+            <h2 style={{ fontFamily: SERIF, fontSize: "clamp(2rem, 3.5vw, 3rem)", fontWeight: 800, margin: "0.75rem 0 0" }}>
               Our Journey
             </h2>
             <div className="gold-line" style={{ maxWidth: "120px", margin: "1.5rem auto 0" }} />
@@ -444,7 +443,7 @@ export default function AboutPage() {
                 width: "1px",
                 transform: "translateX(-50%)",
                 background:
-                  "linear-gradient(180deg, transparent, rgba(184,147,42,0.5) 10%, rgba(184,147,42,0.5) 90%, transparent)",
+                  "linear-gradient(180deg, transparent, rgba(255,255,255,0.5) 10%, rgba(255,255,255,0.5) 90%, transparent)",
               }}
             />
             {TIMELINE.map((t, i) => {
@@ -475,7 +474,7 @@ export default function AboutPage() {
                       borderRadius: "50%",
                       transform: "translateX(-50%)",
                       backgroundColor: GOLD,
-                      boxShadow: "0 0 14px rgba(184,147,42,0.7), 0 0 0 5px rgba(184,147,42,0.12)",
+                      boxShadow: "0 0 14px rgba(255,255,255,0.7), 0 0 0 5px rgba(255,255,255,0.12)",
                     }}
                   />
                   <div
@@ -513,22 +512,22 @@ export default function AboutPage() {
               margin: "0 auto",
               textAlign: "center",
               padding: "4.5rem 2rem",
-              borderRadius: "6px",
-              border: "1px solid rgba(184,147,42,0.3)",
+              borderRadius: 0,
+              border: "1px solid #2A2A2A",
               background:
-                "radial-gradient(circle at 50% 0%, rgba(184,147,42,0.14), transparent 60%), #EDE0CC",
+                "radial-gradient(circle at 50% 0%, rgba(139,34,54,0.18), transparent 60%), #0A0A0A",
             }}
           >
             <h2
               style={{
                 fontFamily: SERIF,
                 fontSize: "clamp(2rem, 4vw, 3.2rem)",
-                fontWeight: 500,
+                fontWeight: 800,
                 margin: "0 0 2rem",
               }}
             >
               Ready to Find Your{" "}
-              <span className="gold-text" style={{ fontStyle: "italic" }}>
+              <span className="text-accent" style={{ }}>
                 Signature Scent?
               </span>
             </h2>
@@ -548,7 +547,7 @@ export default function AboutPage() {
                   border: `1px solid ${GOLD}`,
                   borderRadius: "2px",
                   textDecoration: "none",
-                  boxShadow: ctaPrimary ? "0 0 28px rgba(184,147,42,0.5)" : "none",
+                  boxShadow: ctaPrimary ? "0 0 28px rgba(255,255,255,0.5)" : "none",
                   transition: "background-color 0.35s ease, box-shadow 0.35s ease",
                 }}
               >

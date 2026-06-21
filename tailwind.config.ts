@@ -8,17 +8,20 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        obsidian: "#0A0608",
-        gold: {
-          DEFAULT: "#C9A84C",
-          light: "#E8C87A",
-        },
-        copper: "#8B5E3C",
-        rose: "#E8C4B8",
-        ivory: "#F5EDE0",
+        black: "#0A0A0A",
+        blackSoft: "#141414",
+        charcoal: "#1F1F1F",
+        grayDark: "#2A2A2A",
+        grayMid: "#6B6B6B",
+        grayLight: "#9A9A9A",
+        grayPale: "#D4D4D4",
+        white: "#F5F5F5",
+        burgundy: "#6B1626",
+        burgundyLight: "#8B2236",
+        burgundyDeep: "#4A0F1A",
       },
       fontFamily: {
-        display: ['"Cormorant Garamond"', "Georgia", "serif"],
+        display: ['"Inter"', "system-ui", "sans-serif"],
         sans: ['"Inter"', "system-ui", "sans-serif"],
       },
     },

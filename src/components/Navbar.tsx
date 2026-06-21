@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useState, type CSSProperties } from "react";
 import { usePathname } from "next/navigation";
 
 export default function Navbar() {
@@ -24,161 +24,212 @@ export default function Navbar() {
     { label: "CONTACT", href: "/contact" },
   ];
 
-  const linkStyle = (href: string) => ({
+  const linkStyle = (href: string): CSSProperties => ({
     fontSize: "11px",
     letterSpacing: "0.2em",
     fontWeight: 500,
     color: pathname === href ? "#FFFFFF" : "#B0B0B0",
     textDecoration: "none",
-    whiteSpace: "nowrap" as const,
+    whiteSpace: "nowrap",
   });
 
+  const navBg = scrolled ? "rgba(10,10,10,0.95)" : "rgba(10,10,10,0.55)";
+
+  const logoFilter = "brightness(0) invert(1)";
+
   return (
-    <nav
-      className="fixed top-0 left-0 right-0 z-[100] h-[72px] lg:h-[90px] flex lg:grid lg:grid-cols-[1fr_auto_1fr] items-center justify-between lg:justify-normal px-5 lg:px-10"
-      style={{
-        background: scrolled ? "rgba(10,10,10,0.95)" : "rgba(10,10,10,0.55)",
-        backdropFilter: "blur(14px)",
-        WebkitBackdropFilter: "blur(14px)",
-        borderBottom: "1px solid rgba(255,255,255,0.08)",
-        transition: "background 0.4s ease",
-      }}
-    >
-      {/* Desktop-only left links */}
-      <div className="hidden items-center gap-9 lg:flex">
-        {links.slice(0, 2).map((l) => (
-          <Link key={l.href} href={l.href} style={linkStyle(l.href)}>
-            {l.label}
-          </Link>
-        ))}
-      </div>
-
-      {/* Logo — left on mobile, centered on desktop; smaller on mobile */}
-      <Link href="/" aria-label="Shaghaf home" className="flex items-center lg:justify-self-center">
-        <Image
-          src="/shaghaf_logo_eng.png"
-          alt="Shaghaf"
-          width={190}
-          height={64}
-          priority
-          className="h-[40px] w-[120px] lg:h-[64px] lg:w-[190px]"
-          style={{ objectFit: "contain", filter: "brightness(0) invert(1)" }}
-        />
-      </Link>
-
-      {/* Desktop-only right links + Shop Now */}
-      <div className="hidden items-center gap-9 lg:flex lg:justify-self-end">
-        {links.slice(2).map((l) => (
-          <Link key={l.href} href={l.href} style={linkStyle(l.href)}>
-            {l.label}
-          </Link>
-        ))}
-        <Link
-          href="/products"
-          style={{
-            fontSize: "10px",
-            letterSpacing: "0.2em",
-            fontWeight: 600,
-            color: "#FFFFFF",
-            border: "1px solid #FFFFFF",
-            padding: "11px 24px",
-            textDecoration: "none",
-            whiteSpace: "nowrap",
-            flexShrink: 0,
-          }}
-        >
-          SHOP NOW
-        </Link>
-      </div>
-
-      {/* Mobile-only hamburger */}
-      <button
-        type="button"
-        aria-label="Toggle menu"
-        aria-expanded={menuOpen}
-        onClick={() => setMenuOpen(!menuOpen)}
-        className="flex flex-col gap-1.25 lg:hidden"
-        style={{ background: "none", border: "none", cursor: "pointer", padding: "8px" }}
-      >
-        <span
-          className="bg-white"
-          style={{
-            width: "22px",
-            height: "1px",
-            transform: menuOpen ? "rotate(45deg) translateY(3px)" : "none",
-            transition: "transform 0.3s ease",
-          }}
-        />
-        <span
-          className="bg-white"
-          style={{
-            width: "22px",
-            height: "1px",
-            transform: menuOpen ? "rotate(-45deg) translateY(-3px)" : "none",
-            transition: "transform 0.3s ease",
-          }}
-        />
-      </button>
-
-      {/* Mobile dropdown menu — always rendered, animated via CSS */}
-      <div
-        className="fixed left-0 right-0 flex flex-col lg:hidden"
+    <>
+      {/* ===================== DESKTOP NAVBAR ===================== */}
+      <nav
+        className="nav-desktop"
         style={{
-          top: "72px",
-          background: "rgba(10,10,10,0.98)",
+          position: "fixed",
+          top: 0,
+          left: 0,
+          right: 0,
+          zIndex: 100,
+          height: "90px",
+          gridTemplateColumns: "1fr auto 1fr",
+          alignItems: "center",
+          padding: "0 40px",
+          background: navBg,
           backdropFilter: "blur(14px)",
           WebkitBackdropFilter: "blur(14px)",
           borderBottom: "1px solid rgba(255,255,255,0.08)",
-          padding: "8px 24px 24px",
-          gap: "4px",
-          maxHeight: menuOpen ? "440px" : "0px",
-          opacity: menuOpen ? 1 : 0,
-          overflow: "hidden",
-          transition: "max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease",
-          pointerEvents: menuOpen ? "auto" : "none",
+          transition: "background 0.4s ease",
         }}
       >
-        {links.map((l, i) => (
+        {/* left links */}
+        <div style={{ display: "flex", alignItems: "center", gap: "36px" }}>
+          {links.slice(0, 2).map((l) => (
+            <Link key={l.href} href={l.href} style={linkStyle(l.href)}>
+              {l.label}
+            </Link>
+          ))}
+        </div>
+
+        {/* center logo */}
+        <Link href="/" aria-label="Shaghaf home" style={{ justifySelf: "center", display: "flex", alignItems: "center" }}>
+          <Image
+            src="/shaghaf_logo_eng.png"
+            alt="Shaghaf"
+            width={200}
+            height={68}
+            priority
+            style={{ width: "200px", height: "68px", objectFit: "contain", filter: logoFilter }}
+          />
+        </Link>
+
+        {/* right links + shop now */}
+        <div style={{ display: "flex", alignItems: "center", justifySelf: "end", gap: "36px" }}>
+          {links.slice(2).map((l) => (
+            <Link key={l.href} href={l.href} style={linkStyle(l.href)}>
+              {l.label}
+            </Link>
+          ))}
           <Link
-            key={l.href}
-            href={l.href}
-            onClick={() => setMenuOpen(false)}
+            href="/products"
             style={{
-              fontSize: "14px",
-              letterSpacing: "0.15em",
+              fontSize: "10px",
+              letterSpacing: "0.2em",
+              fontWeight: 600,
               color: "#FFFFFF",
+              border: "1px solid #FFFFFF",
+              padding: "11px 24px",
               textDecoration: "none",
-              padding: "14px 0",
-              borderBottom: i < links.length - 1 ? "1px solid rgba(255,255,255,0.06)" : "none",
-              opacity: menuOpen ? 1 : 0,
-              transform: menuOpen ? "translateY(0)" : "translateY(-10px)",
-              transition: `opacity 0.4s ease ${i * 0.05}s, transform 0.4s ease ${i * 0.05}s`,
+              whiteSpace: "nowrap",
             }}
           >
-            {l.label}
+            SHOP NOW
           </Link>
-        ))}
-        <Link
-          href="/products"
-          onClick={() => setMenuOpen(false)}
+        </div>
+      </nav>
+
+      {/* ===================== MOBILE NAVBAR ===================== */}
+      <nav
+        className="nav-mobile"
+        style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          right: 0,
+          zIndex: 100,
+          height: "72px",
+          alignItems: "center",
+          justifyContent: "space-between",
+          padding: "0 20px",
+          background: navBg,
+          backdropFilter: "blur(14px)",
+          WebkitBackdropFilter: "blur(14px)",
+          borderBottom: "1px solid rgba(255,255,255,0.08)",
+          transition: "background 0.4s ease",
+        }}
+      >
+        {/* logo left */}
+        <Link href="/" aria-label="Shaghaf home" style={{ display: "flex", alignItems: "center" }}>
+          <Image
+            src="/shaghaf_logo_eng.png"
+            alt="Shaghaf"
+            width={130}
+            height={44}
+            priority
+            style={{ width: "130px", height: "44px", objectFit: "contain", filter: logoFilter }}
+          />
+        </Link>
+
+        {/* hamburger right */}
+        <button
+          type="button"
+          onClick={() => setMenuOpen(!menuOpen)}
+          aria-label="Toggle menu"
+          aria-expanded={menuOpen}
           style={{
-            marginTop: "16px",
-            alignSelf: "flex-start",
-            fontSize: "11px",
-            letterSpacing: "0.2em",
-            fontWeight: 600,
-            color: "#FFFFFF",
-            border: "1px solid #FFFFFF",
-            padding: "11px 24px",
-            textDecoration: "none",
-            opacity: menuOpen ? 1 : 0,
-            transform: menuOpen ? "translateY(0)" : "translateY(-10px)",
-            transition: `opacity 0.4s ease ${links.length * 0.05}s, transform 0.4s ease ${links.length * 0.05}s`,
+            background: "none",
+            border: "none",
+            padding: "10px",
+            display: "flex",
+            flexDirection: "column",
+            gap: "5px",
+            cursor: "pointer",
+            zIndex: 101,
           }}
         >
-          SHOP NOW
-        </Link>
-      </div>
-    </nav>
+          <span
+            style={{
+              width: "24px",
+              height: "2px",
+              background: "white",
+              transition: "transform 0.3s ease",
+              transform: menuOpen ? "rotate(45deg) translateY(6px)" : "none",
+            }}
+          />
+          <span
+            style={{
+              width: "24px",
+              height: "2px",
+              background: "white",
+              transition: "transform 0.3s ease",
+              transform: menuOpen ? "rotate(-45deg) translateY(-7px)" : "none",
+            }}
+          />
+        </button>
+
+        {/* dropdown menu */}
+        <div
+          style={{
+            position: "fixed",
+            top: "72px",
+            left: 0,
+            right: 0,
+            background: "rgba(10,10,10,0.98)",
+            backdropFilter: "blur(14px)",
+            WebkitBackdropFilter: "blur(14px)",
+            borderBottom: "1px solid rgba(255,255,255,0.08)",
+            padding: menuOpen ? "10px 24px 24px" : "0 24px",
+            display: "flex",
+            flexDirection: "column",
+            maxHeight: menuOpen ? "400px" : "0px",
+            opacity: menuOpen ? 1 : 0,
+            overflow: "hidden",
+            transition: "max-height 0.4s cubic-bezier(0.16,1,0.3,1), opacity 0.3s ease, padding 0.3s ease",
+            pointerEvents: menuOpen ? "auto" : "none",
+          }}
+        >
+          {links.map((l, i) => (
+            <Link
+              key={l.href}
+              href={l.href}
+              onClick={() => setMenuOpen(false)}
+              style={{
+                fontSize: "14px",
+                letterSpacing: "0.15em",
+                color: "white",
+                textDecoration: "none",
+                padding: "14px 0",
+                borderBottom: i < links.length - 1 ? "1px solid rgba(255,255,255,0.06)" : "none",
+                opacity: menuOpen ? 1 : 0,
+                transform: menuOpen ? "translateY(0)" : "translateY(-8px)",
+                transition: `opacity 0.4s ease ${i * 0.05}s, transform 0.4s ease ${i * 0.05}s`,
+              }}
+            >
+              {l.label}
+            </Link>
+          ))}
+        </div>
+      </nav>
+
+      {/*
+        Show/hide is driven by a real media query (not Tailwind lg: utilities),
+        so it can never be purged from the production CSS bundle.
+      */}
+      <style>{`
+        .nav-desktop { display: none; }
+        .nav-mobile { display: flex; }
+        @media (min-width: 1024px) {
+          .nav-desktop { display: grid; }
+          .nav-mobile { display: none; }
+        }
+      `}</style>
+    </>
   );
 }

@@ -48,7 +48,7 @@ export default function Navbar() {
           left: 0,
           right: 0,
           zIndex: 100,
-          height: "90px",
+          height: "110px",
           gridTemplateColumns: "1fr auto 1fr",
           alignItems: "center",
           padding: "0 40px",
@@ -73,10 +73,10 @@ export default function Navbar() {
           <Image
             src="/shaghaf_logo_eng.png"
             alt="Shaghaf"
-            width={200}
-            height={68}
+            width={280}
+            height={98}
             priority
-            style={{ width: "200px", height: "68px", objectFit: "contain", filter: logoFilter }}
+            style={{ width: "280px", height: "98px", objectFit: "contain", filter: logoFilter }}
           />
         </Link>
 
@@ -114,7 +114,7 @@ export default function Navbar() {
           left: 0,
           right: 0,
           zIndex: 100,
-          height: "72px",
+          height: "84px",
           alignItems: "center",
           justifyContent: "space-between",
           padding: "0 20px",
@@ -130,10 +130,10 @@ export default function Navbar() {
           <Image
             src="/shaghaf_logo_eng.png"
             alt="Shaghaf"
-            width={130}
-            height={44}
+            width={170}
+            height={58}
             priority
-            style={{ width: "130px", height: "44px", objectFit: "contain", filter: logoFilter }}
+            style={{ width: "170px", height: "58px", objectFit: "contain", filter: logoFilter }}
           />
         </Link>
 
@@ -178,7 +178,7 @@ export default function Navbar() {
         <div
           style={{
             position: "fixed",
-            top: "72px",
+            top: "84px",
             left: 0,
             right: 0,
             background: "rgba(10,10,10,0.98)",

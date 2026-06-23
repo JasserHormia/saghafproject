@@ -23,7 +23,7 @@ const INQUIRY_TYPES = [
 
 const DETAILS = [
   { icon: "📍", label: "Location", value: "Dubai, United Arab Emirates" },
-  { icon: "📞", label: "Phone", value: "+971 50 140 5806" },
+  { icon: "📞", label: "Phone", value: "+971 52 711 1852" },
   { icon: "✉️", label: "Email", value: "hello@shaghaf.com" },
 ];
 

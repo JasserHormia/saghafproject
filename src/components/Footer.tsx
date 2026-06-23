@@ -12,7 +12,7 @@ const MUTED = "rgba(245,245,245,0.6)";
 const SOCIALS = [
   { label: "Instagram", href: "https://instagram.com" },
   { label: "Twitter", href: "https://twitter.com" },
-  { label: "WhatsApp", href: "https://wa.me/971501405806" },
+  { label: "WhatsApp", href: "https://wa.me/971527111852" },
 ];
 
 export default function Footer() {

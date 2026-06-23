@@ -19,7 +19,7 @@ const TEXT_MID = "#9A9A9A";
 const WA_GREEN = "#25D366";
 const SERIF = '"Inter", sans-serif';
 
-const WA_NUMBER = "971501405806";
+const WA_NUMBER = "971527111852";
 const waLink = (text: string) =>
   `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(text)}`;
 
@@ -471,7 +471,7 @@ export default function ContactPage() {
               <div className="glass" style={{ padding: "2rem", borderRadius: "4px", display: "flex", flexDirection: "column", gap: "1.25rem" }}>
                 {[
                   { icon: "📍", label: "Location", value: "Dubai, United Arab Emirates" },
-                  { icon: "📞", label: "Phone", value: "+971 50 140 5806" },
+                  { icon: "📞", label: "Phone", value: "+971 52 711 1852" },
                   { icon: "✉️", label: "Email", value: "hello@shaghaf.com" },
                   { icon: "🕒", label: "Working Hours", value: "Sat–Thu 9am–9pm GST" },
                 ].map((d) => (

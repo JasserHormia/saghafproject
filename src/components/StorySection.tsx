@@ -1,20 +1,111 @@
+"use client";
+
+import { useEffect, useLayoutEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 const WHITE = "#F5F5F5";
 const GRAY_LIGHT = "#9A9A9A";
 const GRAY_DARK = "#2A2A2A";
 const BURGUNDY_LIGHT = "#8B2236";
 
+const useIsoLayoutEffect = typeof window !== "undefined" ? useLayoutEffect : useEffect;
+
 const STATS = [
-  { value: "120+", label: "Fragrances" },
-  { value: "18", label: "Years" },
-  { value: "40+", label: "Countries" },
+  { value: 120, suffix: "+", label: "Fragrances" },
+  { value: 18, suffix: "", label: "Years" },
+  { value: 40, suffix: "+", label: "Countries" },
 ];
 
 export default function StorySection() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const photoRef = useRef<HTMLDivElement>(null);
+  const parallaxRef = useRef<HTMLDivElement>(null);
+  const imageRef = useRef<HTMLDivElement>(null);
+  const overlayRef = useRef<HTMLDivElement>(null);
+  const copyRef = useRef<HTMLDivElement>(null);
+
+  useIsoLayoutEffect(() => {
+    if (!sectionRef.current) return;
+    gsap.registerPlugin(ScrollTrigger);
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    const ctx = gsap.context(() => {
+      if (reduce) {
+        gsap.set(overlayRef.current, { scaleX: 0 }); // reveal the image, no motion
+        return;
+      }
+
+      /* 1. Image wipe reveal (one-time) + subtle zoom-out */
+      gsap.fromTo(
+        overlayRef.current,
+        { scaleX: 1 },
+        {
+          scaleX: 0,
+          duration: 1.2,
+          ease: "power4.inOut",
+          transformOrigin: "right",
+          scrollTrigger: { trigger: photoRef.current, start: "top 70%" },
+        },
+      );
+      gsap.fromTo(
+        imageRef.current,
+        { scale: 1.3 },
+        {
+          scale: 1,
+          duration: 1.2,
+          ease: "power4.inOut",
+          scrollTrigger: { trigger: photoRef.current, start: "top 70%" },
+        },
+      );
+
+      /* 2. Headline line reveal (mask) */
+      gsap.from(".story-line", {
+        yPercent: 100,
+        duration: 1,
+        ease: "power4.out",
+        stagger: 0.15,
+        scrollTrigger: { trigger: copyRef.current, start: "top 75%" },
+      });
+
+      /* 3. Layered parallax (scrub) — image and text move at different speeds */
+      gsap.to(parallaxRef.current, {
+        yPercent: 15,
+        ease: "none",
+        scrollTrigger: { trigger: sectionRef.current, start: "top bottom", end: "bottom top", scrub: true },
+      });
+      gsap.to(copyRef.current, {
+        yPercent: -10,
+        ease: "none",
+        scrollTrigger: { trigger: sectionRef.current, start: "top bottom", end: "bottom top", scrub: true },
+      });
+
+      /* 4. Count-up stats */
+      gsap.utils.toArray<HTMLElement>(".story-stat-value").forEach((el) => {
+        const target = Number(el.dataset.value || 0);
+        const suffix = el.dataset.suffix || "";
+        const counter = { v: 0 };
+        el.textContent = `0${suffix}`;
+        gsap.to(counter, {
+          v: target,
+          duration: 1.5,
+          ease: "power2.out",
+          scrollTrigger: { trigger: el, start: "top 85%" },
+          onUpdate: () => {
+            el.textContent = `${Math.round(counter.v)}${suffix}`;
+          },
+        });
+      });
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
     <section
+      ref={sectionRef}
       id="story"
       className="story-split"
       style={{
@@ -25,20 +116,40 @@ export default function StorySection() {
         backgroundColor: "#0A0A0A",
       }}
     >
-      {/* ---------------- Left: full-bleed photo ---------------- */}
-      <div className="story-photo reveal reveal-left" style={{ position: "relative", minHeight: "640px", overflow: "hidden" }}>
-        <Image
-          src="/assets/perfumeimg8.jpeg"
-          alt="Shaghaf — the craft of Arabian perfumery"
-          fill
-          sizes="(max-width: 900px) 100vw, 50vw"
-          style={{ objectFit: "cover" }}
+      {/* ---------------- Left: full-bleed photo with wipe reveal ---------------- */}
+      <div ref={photoRef} className="story-photo" style={{ position: "relative", minHeight: "640px", overflow: "hidden" }}>
+        {/* parallax layer (oversized so the shift never reveals edges) */}
+        <div ref={parallaxRef} style={{ position: "absolute", top: "-25%", left: 0, right: 0, height: "150%", willChange: "transform" }}>
+          {/* zoom layer */}
+          <div ref={imageRef} style={{ position: "absolute", inset: 0, willChange: "transform" }}>
+            <Image
+              src="/assets/perfumeimg8.jpeg"
+              alt="Shaghaf — the craft of Arabian perfumery"
+              fill
+              sizes="(max-width: 900px) 100vw, 50vw"
+              style={{ objectFit: "cover" }}
+            />
+          </div>
+        </div>
+        {/* wipe overlay — starts hidden (no-JS shows image); JS covers then wipes */}
+        <div
+          ref={overlayRef}
+          aria-hidden="true"
+          style={{
+            position: "absolute",
+            inset: 0,
+            zIndex: 2,
+            backgroundColor: "#0A0A0A",
+            transform: "scaleX(0)",
+            transformOrigin: "right",
+          }}
         />
       </div>
 
       {/* ---------------- Right: editorial copy ---------------- */}
       <div
-        className="story-copy reveal reveal-right"
+        ref={copyRef}
+        className="story-copy"
         style={{
           backgroundColor: "#0A0A0A",
           display: "flex",
@@ -60,7 +171,7 @@ export default function StorySection() {
         </span>
 
         <h2
-          className="font-display"
+          className="story-headline font-display"
           style={{
             fontWeight: 800,
             fontSize: "clamp(2.25rem, 4.5vw, 3.75rem)",
@@ -70,9 +181,14 @@ export default function StorySection() {
             margin: "1.25rem 0 1.75rem",
           }}
         >
-          Rooted in
-          <br />
-          <span style={{ color: BURGUNDY_LIGHT }}>Arabian</span> Tradition
+          <span className="story-line-mask">
+            <span className="story-line">Rooted in</span>
+          </span>
+          <span className="story-line-mask">
+            <span className="story-line">
+              <span style={{ color: BURGUNDY_LIGHT }}>Arabian</span> Tradition
+            </span>
+          </span>
         </h2>
 
         <p style={{ maxWidth: "34rem", fontSize: "1rem", lineHeight: 1.8, color: GRAY_LIGHT, margin: "0 0 1.25rem" }}>
@@ -93,8 +209,14 @@ export default function StorySection() {
             <div key={s.label} style={{ display: "flex", alignItems: "center", gap: "2rem" }}>
               {i > 0 && <span aria-hidden="true" style={{ width: "1px", height: "42px", backgroundColor: GRAY_DARK }} />}
               <div style={{ display: "flex", flexDirection: "column", gap: "0.35rem" }}>
-                <span className="font-display" style={{ fontSize: "2rem", fontWeight: 800, color: WHITE, lineHeight: 1 }}>
+                <span
+                  className="story-stat-value font-display"
+                  data-value={s.value}
+                  data-suffix={s.suffix}
+                  style={{ fontSize: "2rem", fontWeight: 800, color: WHITE, lineHeight: 1 }}
+                >
                   {s.value}
+                  {s.suffix}
                 </span>
                 <span
                   style={{
@@ -121,6 +243,15 @@ export default function StorySection() {
       </div>
 
       <style>{`
+        .story-line-mask {
+          display: block;
+          overflow: hidden;
+          padding-bottom: 0.08em;
+        }
+        .story-line {
+          display: block;
+          will-change: transform;
+        }
         .story-link {
           position: relative;
           display: inline-block;

@@ -1,7 +1,14 @@
+"use client";
+
+import { useEffect, useLayoutEffect, useRef } from "react";
 import Image from "next/image";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 const WHITE = "#F5F5F5";
 const GRAY_LIGHT = "#9A9A9A";
+
+const useIsoLayoutEffect = typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
 const TILES = [
   { image: "/assets/perfumeimg1.jpeg", caption: "Aged Cambodian Oud" },
@@ -10,13 +17,31 @@ const TILES = [
 ];
 
 export default function CloseUpGrid() {
+  const sectionRef = useRef<HTMLElement>(null);
+
+  useIsoLayoutEffect(() => {
+    if (!sectionRef.current) return;
+    gsap.registerPlugin(ScrollTrigger);
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    const ctx = gsap.context(() => {
+      gsap.from(".closeup-cell", {
+        scale: 0.8,
+        opacity: 0,
+        duration: 0.6,
+        ease: "power3.out",
+        stagger: 0.08,
+        scrollTrigger: { trigger: ".closeup-grid", start: "top 80%" },
+      });
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <section style={{ backgroundColor: "#0A0A0A", padding: "6rem 0 5rem" }}>
+    <section ref={sectionRef} style={{ backgroundColor: "#0A0A0A", padding: "6rem 0 5rem" }}>
       {/* eyebrow */}
-      <div
-        className="reveal"
-        style={{ maxWidth: "1500px", margin: "0 auto", padding: "0 clamp(1.5rem, 6vw, 6rem) 2.5rem" }}
-      >
+      <div style={{ maxWidth: "1500px", margin: "0 auto", padding: "0 clamp(1.5rem, 6vw, 6rem) 2.5rem" }}>
         <span
           style={{
             fontSize: "0.72rem",
@@ -40,11 +65,11 @@ export default function CloseUpGrid() {
           backgroundColor: "#0A0A0A",
         }}
       >
-        {TILES.map((t, i) => (
+        {TILES.map((t) => (
           <div
             key={t.caption}
-            className="closeup-cell reveal"
-            style={{ position: "relative", backgroundColor: "#0A0A0A", transitionDelay: `${i * 0.1}s` }}
+            className="closeup-cell"
+            style={{ position: "relative", backgroundColor: "#0A0A0A" }}
           >
             <div style={{ position: "relative", width: "100%", aspectRatio: "1 / 1", overflow: "hidden" }}>
               <Image

@@ -1,6 +1,10 @@
 "use client";
 
-import { useState, type CSSProperties } from "react";
+import { useEffect, useLayoutEffect, useRef, useState, type CSSProperties } from "react";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+const useIsoLayoutEffect = typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
 const GOLD = "#8B2236";
 const MUTED = "rgba(245,245,245,0.6)";
@@ -13,6 +17,26 @@ const SOCIALS = [
 
 export default function Footer() {
   const [hovered, setHovered] = useState<string | null>(null);
+  const footerRef = useRef<HTMLElement>(null);
+
+  // Calm, settled fade-up — no drama down here.
+  useIsoLayoutEffect(() => {
+    if (!footerRef.current) return;
+    gsap.registerPlugin(ScrollTrigger);
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    const ctx = gsap.context(() => {
+      gsap.from(".footer-grid", {
+        y: 30,
+        opacity: 0,
+        duration: 0.8,
+        ease: "power2.out",
+        scrollTrigger: { trigger: footerRef.current, start: "top 95%" },
+      });
+    }, footerRef);
+
+    return () => ctx.revert();
+  }, []);
 
   const link = (key: string): CSSProperties => ({
     fontSize: "0.72rem",
@@ -25,6 +49,7 @@ export default function Footer() {
 
   return (
     <footer
+      ref={footerRef}
       style={{
         position: "relative",
         zIndex: 10,

@@ -2,10 +2,15 @@
 
 import {
   useEffect,
+  useLayoutEffect,
   useRef,
   useState,
   type CSSProperties,
 } from "react";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+const useIsoLayoutEffect = typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
 const BURGUNDY_LIGHT = "#8B2236";
 const GRAY_LIGHT = "#9A9A9A";
@@ -88,7 +93,7 @@ function CraftStep({
 
       {/* large outlined number */}
       <span
-        className="font-display"
+        className="craft-num font-display"
         aria-hidden="true"
         style={{
           fontSize: "3.25rem",
@@ -104,7 +109,7 @@ function CraftStep({
 
       {/* title */}
       <h3
-        className="font-display"
+        className="craft-title font-display"
         style={{
           fontSize: "1.5rem",
           fontWeight: 800,
@@ -118,6 +123,7 @@ function CraftStep({
 
       {/* description */}
       <p
+        className="craft-desc"
         style={{
           fontSize: "0.85rem",
           lineHeight: 1.65,
@@ -134,7 +140,24 @@ function CraftStep({
 
 export default function CraftSection() {
   const ref = useRef<HTMLDivElement>(null);
+  const sectionRef = useRef<HTMLElement>(null);
   const [visible, setVisible] = useState(false);
+
+  // Dramatic step entrance: numbers bounce + rotate in, titles/descs fade up after.
+  useIsoLayoutEffect(() => {
+    if (!sectionRef.current) return;
+    gsap.registerPlugin(ScrollTrigger);
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    const ctx = gsap.context(() => {
+      const tl = gsap.timeline({ scrollTrigger: { trigger: ".craft-steps", start: "top 80%" } });
+      tl.from(".craft-num", { scale: 0, rotate: -15, duration: 0.7, ease: "back.out(1.7)", stagger: 0.15 }, 0)
+        .from(".craft-title", { y: 20, opacity: 0, duration: 0.5, ease: "power3.out", stagger: 0.15 }, 0.3)
+        .from(".craft-desc", { y: 20, opacity: 0, duration: 0.5, ease: "power3.out", stagger: 0.15 }, 0.45);
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
 
   useEffect(() => {
     const el = ref.current;
@@ -154,6 +177,7 @@ export default function CraftSection() {
 
   return (
     <section
+      ref={sectionRef}
       id="craft"
       style={{
         position: "relative",

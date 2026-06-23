@@ -62,43 +62,14 @@ function Reveal({
 /* ------------------------------------------------------------------ */
 /*  Data                                                               */
 /* ------------------------------------------------------------------ */
-const STATS = [
-  { value: "120+", label: "Fragrances" },
-  { value: "18", label: "Years" },
-  { value: "40+", label: "Countries" },
-  { value: "10K+", label: "Happy Customers" },
+const SOLUTIONS = [
+  { step: "01", title: "Concept Development", text: "We shape the idea, story, and identity behind every fragrance before a single note is set." },
+  { step: "02", title: "Formulation", text: "Premium raw materials, carefully selected and blended into a signature accord." },
+  { step: "03", title: "Manufacturing", text: "Modern production technologies, held to world-class standards of quality." },
+  { step: "04", title: "Premium Packaging", text: "Every bottle designed with meticulous attention to detail and finish." },
 ];
 
-const TEAM = [
-  {
-    initials: "OA",
-    name: "Omar Al-Rashidi",
-    role: "Master Perfumer",
-    bio: "Thirty years coaxing oud, rose, and amber into unforgettable accords.",
-  },
-  {
-    initials: "LM",
-    name: "Layla Mansour",
-    role: "Creative Director",
-    bio: "Blending the soul of tradition with the language of the modern world.",
-  },
-  {
-    initials: "KS",
-    name: "Khalid Al-Shaghaf",
-    role: "Brand Founder",
-    bio: "The vision and passion from which every Shaghaf fragrance flows.",
-  },
-];
-
-const TIMELINE = [
-  { year: "2007", title: "Founded", text: "Shaghaf opens its first atelier, born from a single family's devotion to scent." },
-  { year: "2010", title: "First 50 Fragrances", text: "Our debut library of fifty signature compositions reaches the souks of Arabia." },
-  { year: "2015", title: "International Expansion", text: "Shaghaf crosses borders, introducing Arabian perfumery to the wider world." },
-  { year: "2019", title: "Award-Winning Collection", text: "Our craft is recognised internationally with acclaim for the Noir collection." },
-  { year: "2024", title: "100+ Global Stockists", text: "Now carried by over a hundred stockists across forty countries and counting." },
-];
-
-const VALUES = ["Heritage", "Purity", "Passion"];
+const VALUES = ["Passion", "Authenticity", "Innovation", "Excellence"];
 
 /* ------------------------------------------------------------------ */
 /*  Page                                                               */
@@ -149,41 +120,52 @@ export default function AboutPage() {
             }}
           />
         </Reveal>
-        <Reveal delay={0.12} style={{ position: "relative", zIndex: 1 }}>
+        <Reveal delay={0.08} style={{ position: "relative", zIndex: 1 }}>
+          <span
+            style={{
+              fontSize: "0.72rem",
+              letterSpacing: "0.3em",
+              textTransform: "uppercase",
+              color: GOLD,
+            }}
+          >
+            Shaghaf Perfumes
+          </span>
+        </Reveal>
+        <Reveal delay={0.16} style={{ position: "relative", zIndex: 1 }}>
           <h1
             style={{
               fontFamily: SERIF,
-              fontSize: "clamp(2.8rem, 6vw, 5rem)",
+              fontSize: "clamp(2.4rem, 5.5vw, 4.6rem)",
               fontWeight: 800,
-              lineHeight: 1.05,
-              margin: 0,
+              lineHeight: 1.08,
+              margin: "1rem 0 0",
             }}
           >
-            Our Passion is{" "}
-            <span className="text-accent" style={{ }}>
-              Perfume
-            </span>
+            Born from Passion.
+            <br />
+            Crafted to Be{" "}
+            <span className="text-accent">Remembered.</span>
           </h1>
         </Reveal>
-        <Reveal delay={0.24} style={{ position: "relative", zIndex: 1 }}>
+        <Reveal delay={0.28} style={{ position: "relative", zIndex: 1 }}>
           <p
             style={{
-              maxWidth: "40rem",
+              maxWidth: "42rem",
               margin: "1.75rem auto 0",
               fontSize: "1.05rem",
               lineHeight: 1.8,
               color: TEXT_MID,
             }}
           >
-            For eighteen years, Shaghaf has devoted itself to the ancient art of
-            Arabian perfumery — distilling rare oud, precious florals, and
-            centuries of heritage into fragrances that become a part of who you
-            are.
+            In a world where many fragrances look alike, we chose to create
+            something truly different — something that speaks about your identity
+            before you even say a word.
           </p>
         </Reveal>
       </section>
 
-      {/* ============ 2. MISSION ============ */}
+      {/* ============ 2. OUR BELIEF ============ */}
       <section style={{ padding: "6rem 2rem" }}>
         <div
           className="about-mission"
@@ -196,7 +178,7 @@ export default function AboutPage() {
             gap: "4rem",
           }}
         >
-          {/* quote card */}
+          {/* belief pull-quote */}
           <Reveal x={-40} y={0}>
             <div
               className="glass"
@@ -222,14 +204,16 @@ export default function AboutPage() {
               <p
                 style={{
                   fontFamily: SERIF,
-                  fontSize: "1.7rem",
+                  fontSize: "1.55rem",
                   lineHeight: 1.5,
                   color: TEXT_DARK,
                   margin: 0,
                 }}
               >
-                <span style={{ color: GOLD }}>شغف</span> — the Arabic word for
-                deep passion and infatuation.
+                A perfume is not just a scent; it is an{" "}
+                <span style={{ color: GOLD }}>emotion</span>, a memory, and a
+                silent expression of personality that leaves a lasting
+                impression.
               </p>
             </div>
           </Reveal>
@@ -245,7 +229,7 @@ export default function AboutPage() {
                   color: GOLD,
                 }}
               >
-                Our Mission
+                Our Belief
               </span>
               <h2
                 style={{
@@ -255,22 +239,25 @@ export default function AboutPage() {
                   margin: "0.75rem 0 1.5rem",
                 }}
               >
-                Why We Exist
+                Where It Began
               </h2>
             </Reveal>
             <Reveal delay={0.1}>
               <p style={{ fontSize: "1rem", lineHeight: 1.8, color: TEXT_MID, margin: "0 0 1.25rem" }}>
-                We exist to carry the authentic soul of Arabian fragrance to
-                every corner of the world — without dilution, without
-                compromise. Each composition honours the traditions of the
-                perfumers who came before us.
+                Our journey began with a clear vision and limitless ambition: to
+                craft exceptional fragrances inspired by passion and refined
+                through world-class standards. From the very beginning, our
+                mission has been to transform the art of perfumery into an
+                experience that combines creativity, precision, and excellence.
               </p>
             </Reveal>
             <Reveal delay={0.2}>
               <p style={{ fontSize: "1rem", lineHeight: 1.8, color: TEXT_MID, margin: "0 0 2rem" }}>
-                From the oud forests of the East to the rose fields of Taif, we
-                source, blend, and age with patience — so that what reaches your
-                skin is nothing less than a story worth wearing.
+                We carefully select premium raw materials and blend them with
+                modern manufacturing technologies to create fragrances that
+                inspire confidence, elegance, and individuality. Every bottle is
+                designed with meticulous attention to detail, reflecting our
+                commitment to quality and innovation.
               </p>
             </Reveal>
             <Reveal delay={0.3}>
@@ -298,117 +285,82 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* ============ 3. STATS BAR ============ */}
+      {/* ============ 3. WHAT SETS US APART (band) ============ */}
       <section
         style={{
-          padding: "4rem 2rem",
+          padding: "5rem 2rem",
           borderTop: "1px solid rgba(255,255,255,0.3)",
           borderBottom: "1px solid rgba(255,255,255,0.3)",
           background: DARK,
         }}
       >
-        <div
-          className="about-stats"
-          style={{
-            maxWidth: "1100px",
-            margin: "0 auto",
-            display: "grid",
-            gridTemplateColumns: "repeat(4, 1fr)",
-            gap: "2rem",
-            textAlign: "center",
-          }}
-        >
-          {STATS.map((s, i) => (
-            <Reveal key={s.label} delay={i * 0.1}>
-              <div>
-                <div
-                  style={{
-                    fontFamily: SERIF,
-                    fontSize: "clamp(2.5rem, 5vw, 3.6rem)",
-                    fontWeight: 600,
-                    color: GOLD,
-                    lineHeight: 1,
-                  }}
-                >
-                  {s.value}
-                </div>
-                <div
-                  style={{
-                    fontSize: "0.7rem",
-                    letterSpacing: "0.2em",
-                    textTransform: "uppercase",
-                    color: "rgba(245,245,245,0.6)",
-                    marginTop: "0.6rem",
-                  }}
-                >
-                  {s.label}
-                </div>
-              </div>
-            </Reveal>
-          ))}
-        </div>
+        <Reveal style={{ maxWidth: "880px", margin: "0 auto", textAlign: "center" }}>
+          <span style={{ fontSize: "0.7rem", letterSpacing: "0.3em", textTransform: "uppercase", color: "rgba(245,245,245,0.7)" }}>
+            What Sets Us Apart
+          </span>
+          <p
+            style={{
+              fontFamily: SERIF,
+              fontSize: "clamp(1.4rem, 2.6vw, 2rem)",
+              lineHeight: 1.5,
+              fontWeight: 600,
+              color: WHITE,
+              margin: "1.25rem 0 0",
+            }}
+          >
+            Our dedication to creating unique olfactory experiences — and
+            providing complete fragrance solutions that turn ideas into iconic
+            perfume collections, for individuals and private labels alike.
+          </p>
+        </Reveal>
       </section>
 
-      {/* ============ 4. TEAM ============ */}
+      {/* ============ 4. COMPLETE FRAGRANCE SOLUTIONS ============ */}
       <section style={{ padding: "7rem 2rem" }}>
         <div style={{ maxWidth: "1100px", margin: "0 auto" }}>
           <Reveal style={{ textAlign: "center", marginBottom: "4rem" }}>
             <span style={{ fontSize: "0.7rem", letterSpacing: "0.3em", textTransform: "uppercase", color: GOLD }}>
-              Our People
+              End to End
             </span>
             <h2 style={{ fontFamily: SERIF, fontSize: "clamp(2rem, 3.5vw, 3rem)", fontWeight: 800, margin: "0.75rem 0 0" }}>
-              The Minds Behind the Scent
+              Complete Fragrance Solutions
             </h2>
             <div className="gold-line" style={{ maxWidth: "120px", margin: "1.5rem auto 0" }} />
           </Reveal>
 
           <div
-            className="about-team"
-            style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "2rem" }}
+            className="about-solutions"
+            style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "1.5rem" }}
           >
-            {TEAM.map((m, i) => (
-              <Reveal key={m.name} delay={i * 0.12}>
+            {SOLUTIONS.map((s, i) => (
+              <Reveal key={s.step} delay={i * 0.1}>
                 <div
                   className="glass"
                   style={{
                     padding: "2.5rem 1.5rem",
                     borderRadius: "4px",
-                    textAlign: "center",
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                    gap: "0.4rem",
                     height: "100%",
                   }}
                 >
                   <div
+                    className="font-display"
+                    aria-hidden="true"
                     style={{
-                      width: "96px",
-                      height: "96px",
-                      borderRadius: "50%",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      fontFamily: SERIF,
-                      fontSize: "1.8rem",
-                      fontWeight: 600,
-                      color: GOLD,
-                      border: `1.5px solid ${GOLD}`,
-                      background: "radial-gradient(circle at 50% 30%, rgba(139,34,54,0.35), rgba(255,255,255,0.05))",
-                      boxShadow: "0 0 0 6px rgba(255,255,255,0.05)",
-                      marginBottom: "1rem",
+                      fontSize: "2.5rem",
+                      fontWeight: 800,
+                      lineHeight: 1,
+                      color: "transparent",
+                      WebkitTextStroke: `1.5px ${GOLD}`,
+                      marginBottom: "1.25rem",
                     }}
                   >
-                    {m.initials}
+                    {s.step}
                   </div>
-                  <h3 style={{ fontFamily: SERIF, fontSize: "1.5rem", fontWeight: 600, margin: 0 }}>
-                    {m.name}
+                  <h3 style={{ fontFamily: SERIF, fontSize: "1.2rem", fontWeight: 700, margin: "0 0 0.6rem" }}>
+                    {s.title}
                   </h3>
-                  <span style={{ fontSize: "0.68rem", letterSpacing: "0.2em", textTransform: "uppercase", color: GOLD }}>
-                    {m.role}
-                  </span>
-                  <p style={{ fontSize: "0.88rem", lineHeight: 1.6, color: TEXT_MID, margin: "0.5rem 0 0" }}>
-                    {m.bio}
+                  <p style={{ fontSize: "0.88rem", lineHeight: 1.6, color: TEXT_MID, margin: 0 }}>
+                    {s.text}
                   </p>
                 </div>
               </Reveal>
@@ -417,92 +369,32 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* ============ 5. TIMELINE ============ */}
-      <section style={{ padding: "7rem 2rem", backgroundColor: "#0A0A0A" }}>
-        <div style={{ maxWidth: "920px", margin: "0 auto" }}>
-          <Reveal style={{ textAlign: "center", marginBottom: "4rem" }}>
+      {/* ============ 5. OUR AMBITION ============ */}
+      <section style={{ padding: "2rem 2rem 7rem" }}>
+        <div style={{ maxWidth: "820px", margin: "0 auto", textAlign: "center" }}>
+          <Reveal>
             <span style={{ fontSize: "0.7rem", letterSpacing: "0.3em", textTransform: "uppercase", color: GOLD }}>
-              Through the Years
+              Our Ambition
             </span>
-            <h2 style={{ fontFamily: SERIF, fontSize: "clamp(2rem, 3.5vw, 3rem)", fontWeight: 800, margin: "0.75rem 0 0" }}>
-              Our Journey
+            <h2 style={{ fontFamily: SERIF, fontSize: "clamp(2rem, 3.5vw, 3rem)", fontWeight: 800, margin: "0.75rem 0 1.5rem" }}>
+              Beyond the Bottle
             </h2>
-            <div className="gold-line" style={{ maxWidth: "120px", margin: "1.5rem auto 0" }} />
           </Reveal>
-
-          <div className="about-timeline" style={{ position: "relative" }}>
-            {/* center spine */}
-            <span
-              aria-hidden="true"
-              className="timeline-spine"
-              style={{
-                position: "absolute",
-                top: 0,
-                bottom: 0,
-                left: "50%",
-                width: "1px",
-                transform: "translateX(-50%)",
-                background:
-                  "linear-gradient(180deg, transparent, rgba(255,255,255,0.5) 10%, rgba(255,255,255,0.5) 90%, transparent)",
-              }}
-            />
-            {TIMELINE.map((t, i) => {
-              const left = i % 2 === 0;
-              return (
-                <Reveal
-                  key={t.year}
-                  x={left ? -40 : 40}
-                  y={0}
-                  className="timeline-row"
-                  style={{
-                    position: "relative",
-                    display: "flex",
-                    justifyContent: left ? "flex-start" : "flex-end",
-                    marginBottom: "2.5rem",
-                  }}
-                >
-                  {/* dot */}
-                  <span
-                    aria-hidden="true"
-                    className="timeline-dot"
-                    style={{
-                      position: "absolute",
-                      left: "50%",
-                      top: "0.4rem",
-                      width: "14px",
-                      height: "14px",
-                      borderRadius: "50%",
-                      transform: "translateX(-50%)",
-                      backgroundColor: GOLD,
-                      boxShadow: "0 0 14px rgba(255,255,255,0.7), 0 0 0 5px rgba(255,255,255,0.12)",
-                    }}
-                  />
-                  <div
-                    className="timeline-card"
-                    style={{
-                      width: "calc(50% - 2.5rem)",
-                      textAlign: left ? "right" : "left",
-                    }}
-                  >
-                    <div style={{ fontFamily: SERIF, fontSize: "2rem", fontWeight: 600, color: GOLD, lineHeight: 1 }}>
-                      {t.year}
-                    </div>
-                    <h3 style={{ fontFamily: SERIF, fontSize: "1.35rem", fontWeight: 600, margin: "0.4rem 0 0.4rem" }}>
-                      {t.title}
-                    </h3>
-                    <p style={{ fontSize: "0.88rem", lineHeight: 1.6, color: TEXT_MID, margin: 0 }}>
-                      {t.text}
-                    </p>
-                  </div>
-                </Reveal>
-              );
-            })}
-          </div>
+          <Reveal delay={0.1}>
+            <p style={{ fontSize: "1.05rem", lineHeight: 1.85, color: TEXT_MID, margin: 0 }}>
+              Our ambition goes beyond producing perfumes. We strive to build a
+              globally recognized brand that represents luxury, authenticity, and
+              innovation — proudly carrying the spirit of excellence to
+              international markets. At Shaghaf, every fragrance tells a story,
+              every bottle reflects a vision, and every creation is driven by one
+              powerful force: <span style={{ color: GOLD }}>passion</span>.
+            </p>
+          </Reveal>
         </div>
       </section>
 
       {/* ============ 6. CLOSING CTA ============ */}
-      <section style={{ padding: "6rem 2rem" }}>
+      <section style={{ padding: "0 2rem 6rem" }}>
         <Reveal>
           <div
             style={{
@@ -521,16 +413,17 @@ export default function AboutPage() {
             <h2
               style={{
                 fontFamily: SERIF,
-                fontSize: "clamp(2rem, 4vw, 3.2rem)",
+                fontSize: "clamp(1.8rem, 4vw, 3rem)",
                 fontWeight: 800,
-                margin: "0 0 2rem",
+                margin: "0 0 0.75rem",
               }}
             >
-              Ready to Find Your{" "}
-              <span className="text-accent" style={{ }}>
-                Signature Scent?
-              </span>
+              Crafted with Passion,{" "}
+              <span className="text-accent">Remembered Forever.</span>
             </h2>
+            <p style={{ fontSize: "1rem", color: TEXT_MID, margin: "0 0 2rem" }}>
+              Ready to find the scent that speaks before you do?
+            </p>
             <div style={{ display: "flex", flexWrap: "wrap", gap: "1rem", justifyContent: "center" }}>
               <a
                 href="/#collection"
@@ -583,17 +476,10 @@ export default function AboutPage() {
       <style>{`
         @media (max-width: 900px) {
           .about-mission { grid-template-columns: 1fr !important; gap: 3rem !important; }
-          .about-team { grid-template-columns: 1fr !important; }
-          .about-stats { grid-template-columns: repeat(2, 1fr) !important; }
+          .about-solutions { grid-template-columns: repeat(2, 1fr) !important; }
         }
-        @media (max-width: 680px) {
-          .timeline-spine { left: 8px !important; }
-          .timeline-dot { left: 8px !important; }
-          .about-timeline .timeline-row { justify-content: flex-end !important; }
-          .about-timeline .timeline-card {
-            width: calc(100% - 2.5rem) !important;
-            text-align: left !important;
-          }
+        @media (max-width: 540px) {
+          .about-solutions { grid-template-columns: 1fr !important; }
         }
       `}</style>
     </div>

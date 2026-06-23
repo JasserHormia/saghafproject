@@ -1,8 +1,12 @@
 "use client";
 
-import { useRef } from "react";
+import { useEffect, useLayoutEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+const useIsoLayoutEffect = typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
 const WHITE = "#F5F5F5";
 const GRAY_LIGHT = "#9A9A9A";
@@ -31,16 +35,60 @@ const PERFUMES: Perfume[] = [
 
 export default function CollectionSection() {
   const rowRef = useRef<HTMLDivElement>(null);
+  const sectionRef = useRef<HTMLElement>(null);
 
   const scrollBy = (dir: number) => {
     rowRef.current?.scrollBy({ left: dir * 344, behavior: "smooth" });
   };
 
+  useIsoLayoutEffect(() => {
+    if (!sectionRef.current) return;
+    gsap.registerPlugin(ScrollTrigger);
+    // Reduced motion: leave everything visible, no entrance / pulse.
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    const ctx = gsap.context(() => {
+      // 1. Header reveal
+      gsap.from(".coll-header", {
+        y: 60,
+        opacity: 0,
+        scale: 0.96,
+        duration: 1,
+        ease: "power3.out",
+        scrollTrigger: { trigger: sectionRef.current, start: "top 75%" },
+      });
+
+      // 2. Cards stagger in from the right + pop
+      gsap.from(".coll-card", {
+        x: 80,
+        opacity: 0,
+        scale: 0.92,
+        duration: 0.7,
+        ease: "power3.out",
+        stagger: 0.12,
+        scrollTrigger: { trigger: ".coll-row", start: "top 80%" },
+      });
+
+      // 4. Continuous pulse on the scroll arrows to signal interactivity
+      gsap.fromTo(
+        ".coll-arrow",
+        { scale: 1, opacity: 0.6 },
+        { scale: 1.1, opacity: 1, duration: 1, ease: "sine.inOut", repeat: -1, yoyo: true },
+      );
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <section id="collection" style={{ position: "relative", backgroundColor: "#0A0A0A", padding: "6rem 0" }}>
+    <section
+      ref={sectionRef}
+      id="collection"
+      style={{ position: "relative", backgroundColor: "#0A0A0A", padding: "6rem 0" }}
+    >
       {/* Header */}
       <div
-        className="reveal"
+        className="coll-header"
         style={{ maxWidth: "1500px", margin: "0 auto", padding: "0 clamp(1.5rem, 6vw, 6rem) 3rem" }}
       >
         <span
@@ -103,7 +151,7 @@ export default function CollectionSection() {
             >
               {/* image */}
               <div style={{ position: "relative", width: "100%", aspectRatio: "3 / 4", overflow: "hidden" }}>
-                <div className="coll-img" style={{ position: "absolute", inset: 0, transition: "transform 0.6s ease" }}>
+                <div className="coll-img" style={{ position: "absolute", inset: 0, transition: "transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94)" }}>
                   <Image
                     src={p.image}
                     alt={p.name}
@@ -150,7 +198,8 @@ export default function CollectionSection() {
         .no-scrollbar::-webkit-scrollbar { display: none; }
 
         .coll-img { will-change: transform; }
-        .coll-card:hover .coll-img { transform: scale(1.05); }
+        /* 3. Dramatic hover: zoom + slight rotation (~power2.out over 0.6s) */
+        .coll-card:hover .coll-img { transform: scale(1.08) rotate(1deg); }
 
         .coll-arrow {
           position: absolute;

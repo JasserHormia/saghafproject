@@ -1,13 +1,17 @@
 "use client";
 
-import { useState, type CSSProperties, type ReactNode } from "react";
+import { useEffect, useLayoutEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 const WHITE = "#F5F5F5";
 const BLACK = "#0A0A0A";
 const GRAY_LIGHT = "#9A9A9A";
 const BURGUNDY = "#6B1626";
+
+const useIsoLayoutEffect = typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
 type Media = {
   type: "image" | "video";
@@ -44,8 +48,8 @@ function MediaLayer({
   preload: "auto" | "metadata" | "none";
 }) {
   const filter = grayscale ? "grayscale(100%) contrast(1.1)" : undefined;
-  if (media.type === "video") {
-    return (
+  const inner =
+    media.type === "video" ? (
       <video
         autoPlay
         muted
@@ -59,16 +63,18 @@ function MediaLayer({
       >
         <source src={media.src} type="video/mp4" />
       </video>
+    ) : (
+      <Image src={media.src} alt={media.alt ?? ""} fill sizes="50vw" style={{ objectFit: "cover", filter }} />
     );
-  }
+
+  // Oversized layer so the scroll parallax never reveals edges.
   return (
-    <Image
-      src={media.src}
-      alt={media.alt ?? ""}
-      fill
-      sizes="50vw"
-      style={{ objectFit: "cover", filter }}
-    />
+    <div
+      className="duo-parallax"
+      style={{ position: "absolute", top: "-16%", left: 0, right: 0, height: "132%", willChange: "transform" }}
+    >
+      {inner}
+    </div>
   );
 }
 
@@ -88,6 +94,30 @@ export default function DuoImageBanner({
   preload = "metadata",
 }: DuoImageBannerProps) {
   const [hover, setHover] = useState(false);
+  const sectionRef = useRef<HTMLElement>(null);
+
+  useIsoLayoutEffect(() => {
+    if (!sectionRef.current) return;
+    gsap.registerPlugin(ScrollTrigger);
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    const ctx = gsap.context(() => {
+      // Parallax on the media layers
+      gsap.to(".duo-parallax", {
+        yPercent: 12,
+        ease: "none",
+        scrollTrigger: { trigger: sectionRef.current, start: "top bottom", end: "bottom top", scrub: true },
+      });
+
+      // Text: line-reveal headline, fade-up paragraph, scale-in button
+      const tl = gsap.timeline({ scrollTrigger: { trigger: sectionRef.current, start: "top 75%" } });
+      tl.from(".duo-line", { yPercent: 100, duration: 1, ease: "power4.out" }, 0)
+        .from(".duo-subtext", { y: 20, opacity: 0, duration: 0.7, ease: "power3.out" }, 0.25)
+        .from(".duo-cta", { scale: 0.9, opacity: 0, duration: 0.6, ease: "back.out(1.6)" }, 0.4);
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
 
   const justify =
     textPosition === "overlay-center"
@@ -103,6 +133,7 @@ export default function DuoImageBanner({
 
   return (
     <section
+      ref={sectionRef}
       style={{
         position: "relative",
         width: "100%",
@@ -176,7 +207,7 @@ export default function DuoImageBanner({
             padding: "0 clamp(1.5rem, 6vw, 6rem) clamp(3rem, 9vh, 7rem)",
           }}
         >
-          <div className="reveal" style={{ maxWidth: textMaxWidth, textAlign, alignItems: align }}>
+          <div style={{ maxWidth: textMaxWidth, textAlign, alignItems: align }}>
             {headline && (
               <h2
                 className="font-display"
@@ -190,11 +221,14 @@ export default function DuoImageBanner({
                   margin: 0,
                 }}
               >
-                {headline}
+                <span className="duo-line-mask">
+                  <span className="duo-line">{headline}</span>
+                </span>
               </h2>
             )}
             {subtext && (
               <p
+                className="duo-subtext"
                 style={{
                   maxWidth: "30rem",
                   margin: textAlign === "center" ? "1.25rem auto 0" : "1.25rem 0 0",
@@ -209,6 +243,7 @@ export default function DuoImageBanner({
             {ctaText && (
               <Link
                 href={ctaLink}
+                className="duo-cta"
                 onMouseEnter={() => setHover(true)}
                 onMouseLeave={() => setHover(false)}
                 style={
@@ -236,6 +271,8 @@ export default function DuoImageBanner({
       )}
 
       <style>{`
+        .duo-line-mask { display: block; overflow: hidden; padding-bottom: 0.06em; }
+        .duo-line { display: block; will-change: transform; }
         @media (max-width: 768px) {
           .duo-grid {
             grid-template-columns: 1fr !important;

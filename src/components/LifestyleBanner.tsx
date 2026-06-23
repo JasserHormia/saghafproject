@@ -1,11 +1,52 @@
+"use client";
+
+import { useEffect, useLayoutEffect, useRef } from "react";
 import Link from "next/link";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 const WHITE = "#F5F5F5";
 const BURGUNDY_LIGHT = "#8B2236";
 
+const useIsoLayoutEffect = typeof window !== "undefined" ? useLayoutEffect : useEffect;
+
 export default function LifestyleBanner() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useIsoLayoutEffect(() => {
+    if (!sectionRef.current) return;
+    gsap.registerPlugin(ScrollTrigger);
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    const ctx = gsap.context(() => {
+      // Ken Burns: slow continuous zoom tied to scroll position
+      gsap.fromTo(
+        videoRef.current,
+        { scale: 1 },
+        {
+          scale: 1.1,
+          ease: "none",
+          scrollTrigger: { trigger: sectionRef.current, start: "top bottom", end: "bottom top", scrub: true },
+        },
+      );
+
+      // Headline line-reveal (mask)
+      gsap.from(".lb-line", {
+        yPercent: 100,
+        duration: 1,
+        ease: "power4.out",
+        stagger: 0.12,
+        scrollTrigger: { trigger: sectionRef.current, start: "top 75%" },
+      });
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
     <section
+      ref={sectionRef}
       style={{
         position: "relative",
         width: "100%",
@@ -17,6 +58,7 @@ export default function LifestyleBanner() {
     >
       {/* Full-bleed video (full colour) */}
       <video
+        ref={videoRef}
         autoPlay
         muted
         loop
@@ -25,6 +67,7 @@ export default function LifestyleBanner() {
         poster="/assets/perfume1.jpeg"
         aria-hidden="true"
         className="absolute inset-0 w-full h-full object-cover"
+        style={{ willChange: "transform" }}
       >
         <source src="/assets/Perfumevideo1.mp4" type="video/mp4" />
       </video>
@@ -42,7 +85,6 @@ export default function LifestyleBanner() {
 
       {/* centered overlay text */}
       <div
-        className="reveal"
         style={{
           position: "absolute",
           inset: 0,
@@ -67,7 +109,14 @@ export default function LifestyleBanner() {
             margin: 0,
           }}
         >
-          Crafted for the <span style={{ color: BURGUNDY_LIGHT }}>Bold</span>
+          <span className="lb-line-mask">
+            <span className="lb-line">Crafted for the</span>
+          </span>
+          <span className="lb-line-mask">
+            <span className="lb-line" style={{ color: BURGUNDY_LIGHT }}>
+              Bold
+            </span>
+          </span>
         </h2>
         <Link href="/products" className="lifestyle-link">
           Discover the House →
@@ -75,6 +124,15 @@ export default function LifestyleBanner() {
       </div>
 
       <style>{`
+        .lb-line-mask {
+          display: block;
+          overflow: hidden;
+          padding-bottom: 0.06em;
+        }
+        .lb-line {
+          display: block;
+          will-change: transform;
+        }
         .lifestyle-link {
           position: relative;
           display: inline-block;

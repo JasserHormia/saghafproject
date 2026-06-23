@@ -1,6 +1,10 @@
 "use client";
 
-import { useState, type CSSProperties, type FormEvent } from "react";
+import { useEffect, useLayoutEffect, useRef, useState, type CSSProperties, type FormEvent } from "react";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+const useIsoLayoutEffect = typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
 const GOLD = "#8B2236";
 const GOLD_LIGHT = "#8B2236";
@@ -27,11 +31,47 @@ export default function ContactSection() {
   const [focused, setFocused] = useState<string | null>(null);
   const [submitted, setSubmitted] = useState(false);
   const [btnHover, setBtnHover] = useState(false);
+  const sectionRef = useRef<HTMLElement>(null);
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setSubmitted(true);
   };
+
+  useIsoLayoutEffect(() => {
+    if (!sectionRef.current) return;
+    gsap.registerPlugin(ScrollTrigger);
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    const ctx = gsap.context(() => {
+      // Headline line-reveal
+      gsap.from(".contact-line", {
+        yPercent: 100,
+        duration: 1,
+        ease: "power4.out",
+        scrollTrigger: { trigger: ".contact-heading", start: "top 80%" },
+      });
+
+      // Form card in, then fields cascade (explicit set+to so the hidden
+      // start-state always holds — the trigger is the card itself).
+      gsap.set(".contact-form", { opacity: 0, y: 60, scale: 0.97 });
+      gsap.set(".contact-field", { opacity: 0, y: 20 });
+      const tl = gsap.timeline({ scrollTrigger: { trigger: sectionRef.current, start: "top 65%" } });
+      tl.to(".contact-form", { opacity: 1, y: 0, scale: 1, duration: 0.9, ease: "power3.out" })
+        .to(".contact-field", { opacity: 1, y: 0, duration: 0.5, ease: "power2.out", stagger: 0.1 }, "-=0.4");
+
+      // Contact detail icons scale-bounce in
+      gsap.from(".contact-icon", {
+        scale: 0,
+        duration: 0.6,
+        ease: "back.out(1.7)",
+        stagger: 0.12,
+        scrollTrigger: { trigger: ".contact-details", start: "top 85%" },
+      });
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
 
   const labelStyle: CSSProperties = {
     display: "block",
@@ -58,6 +98,7 @@ export default function ContactSection() {
 
   return (
     <section
+      ref={sectionRef}
       id="contact"
       style={{
         position: "relative",
@@ -68,9 +109,8 @@ export default function ContactSection() {
 
       <div style={{ position: "relative", zIndex: 1, maxWidth: "780px", margin: "0 auto" }}>
         {/* heading */}
-        <div style={{ textAlign: "center", marginBottom: "3rem" }}>
+        <div className="contact-heading" style={{ textAlign: "center", marginBottom: "3rem" }}>
           <span
-            className="reveal"
             style={{
               display: "inline-block",
               fontSize: "0.7rem",
@@ -82,17 +122,18 @@ export default function ContactSection() {
             Get in Touch
           </span>
           <h2
-            className="reveal"
+            className="contact-headline"
             style={{
               fontFamily: SERIF,
               fontSize: "clamp(2.2rem, 4vw, 3.4rem)",
               fontWeight: 800,
               color: TEXT_DARK,
               margin: "0.75rem 0 0",
-              transitionDelay: "0.1s",
             }}
           >
-            Begin Your Journey
+            <span className="contact-line-mask">
+              <span className="contact-line">Begin Your Journey</span>
+            </span>
           </h2>
           <div
             className="gold-line"
@@ -119,7 +160,7 @@ export default function ContactSection() {
               marginBottom: "1.25rem",
             }}
           >
-            <div>
+            <div className="contact-field">
               <label htmlFor="name" style={labelStyle}>
                 Name
               </label>
@@ -134,7 +175,7 @@ export default function ContactSection() {
                 onBlur={() => setFocused(null)}
               />
             </div>
-            <div>
+            <div className="contact-field">
               <label htmlFor="email" style={labelStyle}>
                 Email
               </label>
@@ -151,7 +192,7 @@ export default function ContactSection() {
             </div>
           </div>
 
-          <div style={{ marginBottom: "1.25rem" }}>
+          <div className="contact-field" style={{ marginBottom: "1.25rem" }}>
             <label htmlFor="inquiry" style={labelStyle}>
               Inquiry Type
             </label>
@@ -171,7 +212,7 @@ export default function ContactSection() {
             </select>
           </div>
 
-          <div style={{ marginBottom: "1.75rem" }}>
+          <div className="contact-field" style={{ marginBottom: "1.75rem" }}>
             <label htmlFor="message" style={labelStyle}>
               Message
             </label>
@@ -190,6 +231,7 @@ export default function ContactSection() {
           <button
             type="submit"
             disabled={submitted}
+            className="contact-field"
             onMouseEnter={() => setBtnHover(true)}
             onMouseLeave={() => setBtnHover(false)}
             style={{
@@ -236,6 +278,7 @@ export default function ContactSection() {
             >
               <span
                 aria-hidden="true"
+                className="contact-icon"
                 style={{
                   fontSize: "1.3rem",
                   width: "52px",
@@ -271,6 +314,8 @@ export default function ContactSection() {
 
       <style>{`
         ::placeholder { color: #6B6B6B; }
+        .contact-line-mask { display: inline-block; overflow: hidden; padding-bottom: 0.08em; vertical-align: bottom; }
+        .contact-line { display: inline-block; will-change: transform; }
         @media (max-width: 767px) {
           .contact-row { grid-template-columns: 1fr !important; }
           .contact-details { grid-template-columns: 1fr !important; gap: 2rem !important; }

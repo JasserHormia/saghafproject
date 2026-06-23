@@ -42,31 +42,40 @@ export default function CollectionSection() {
   };
 
   useIsoLayoutEffect(() => {
-    if (!sectionRef.current) return;
+    const section = sectionRef.current;
+    if (!section) return;
     gsap.registerPlugin(ScrollTrigger);
     // Reduced motion: leave everything visible, no entrance / pulse.
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
     const ctx = gsap.context(() => {
-      // 1. Header reveal
+      // 1. Header reveal (trigger = outer section, fires once)
       gsap.from(".coll-header", {
         y: 60,
         opacity: 0,
         scale: 0.96,
         duration: 1,
         ease: "power3.out",
-        scrollTrigger: { trigger: sectionRef.current, start: "top 75%" },
+        scrollTrigger: { trigger: section, start: "top 75%", once: true },
       });
 
-      // 2. Cards stagger in from the right + pop
-      gsap.from(".coll-card", {
-        x: 80,
-        opacity: 0,
-        scale: 0.92,
-        duration: 0.7,
-        ease: "power3.out",
-        stagger: 0.12,
-        scrollTrigger: { trigger: ".coll-row", start: "top 80%" },
+      // 2. Cards: explicit hidden start, then ScrollTrigger.batch reveals them
+      //    ONCE and always lands on opacity:1 / x:0 / scale:1 (overwrite).
+      const cards = gsap.utils.toArray<HTMLElement>(".coll-card");
+      gsap.set(cards, { opacity: 0, x: 80, scale: 0.92 });
+      ScrollTrigger.batch(cards, {
+        start: "top 88%",
+        once: true,
+        onEnter: (batch) =>
+          gsap.to(batch, {
+            opacity: 1,
+            x: 0,
+            scale: 1,
+            duration: 0.8,
+            stagger: 0.12,
+            ease: "power3.out",
+            overwrite: true,
+          }),
       });
 
       // 4. Continuous pulse on the scroll arrows to signal interactivity
@@ -75,9 +84,36 @@ export default function CollectionSection() {
         { scale: 1, opacity: 0.6 },
         { scale: 1.1, opacity: 1, duration: 1, ease: "sine.inOut", repeat: -1, yoyo: true },
       );
-    }, sectionRef);
+    }, section);
 
-    return () => ctx.revert();
+    // Root-cause guard: recompute trigger positions after the hero media/images
+    // finish loading and shift the layout (this is what made the original single
+    // trigger mis-fire on the live build).
+    const onLoad = () => ScrollTrigger.refresh();
+    window.addEventListener("load", onLoad);
+
+    // Hard safety net: if the cards are ever in view but still hidden (animation
+    // failed to trigger for any reason), force them fully visible. Checked on a
+    // short watchdog so it can't leave them blank — without killing the entrance
+    // for users who haven't scrolled here yet (only fires when in view).
+    const watchdog = window.setInterval(() => {
+      const first = section.querySelector<HTMLElement>(".coll-card");
+      if (!first) return;
+      const r = section.getBoundingClientRect();
+      const inView = r.top < window.innerHeight && r.bottom > 0;
+      if (inView && getComputedStyle(first).opacity === "0") {
+        gsap.set(".coll-card", { opacity: 1, x: 0, scale: 1, clearProps: "all" });
+        gsap.set(".coll-header", { clearProps: "all" });
+      }
+    }, 1500);
+    const stopWatchdog = window.setTimeout(() => window.clearInterval(watchdog), 20000);
+
+    return () => {
+      window.removeEventListener("load", onLoad);
+      window.clearInterval(watchdog);
+      window.clearTimeout(stopWatchdog);
+      ctx.revert();
+    };
   }, []);
 
   return (
